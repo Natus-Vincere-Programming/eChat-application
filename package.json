@@ -1,13 +1,13 @@
 {
-  "name": "mind-glow-application",
-  "version": "0.0.2-SNAPSHOT",
+  "name": "echat-application",
+  "version": "0.0.1-SNAPSHOT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:MindGlow-application": "node dist/mind-glow-application/server/server.mjs"
+    "serve:ssr:echat-application": "node dist/echat-application/server/server.mjs"
   },
   "private": true,
   "dependencies": {

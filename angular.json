@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "MindGlow-application": {
+    "echat-application": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MindGlow-application:build:production"
+              "buildTarget": "echat-application:build:production"
             },
             "development": {
-              "buildTarget": "MindGlow-application:build:development"
+              "buildTarget": "echat-application:build:development"
             }
           },
           "defaultConfiguration": "development"
