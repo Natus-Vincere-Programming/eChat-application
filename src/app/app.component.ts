@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatIconRegistry} from "@angular/material/icon";
 import {MainPageComponent} from "./pages/main-page/main-page.component";
+import {MessageComponent} from "./message/message.component";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import {MainPageComponent} from "./pages/main-page/main-page.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [RouterOutlet,
-    MainPageComponent,]
+    MainPageComponent,
+    MessageComponent]
 })
 export class AppComponent implements OnInit {
 
