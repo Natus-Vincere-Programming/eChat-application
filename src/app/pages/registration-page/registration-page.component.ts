@@ -47,7 +47,7 @@ export class RegistrationPageComponent {
     {
       nickName: new FormControl(
         "",
-        [Validators.required]
+        [Validators.required, Validators.pattern('[a-zA-Z]*')]
       ),
       name: new FormControl(
         "",
