@@ -1,0 +1,23 @@
+<div>
+  <div class="title">
+    <h1 mat-dialog-title>Контакти</h1>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <form class="enter-nickname">
+    <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+      <mat-label>Нікнейм нового контакта</mat-label>
+      <input matInput type="text" required>
+    </mat-form-field>
+    <button type="submit" mat-flat-button>
+      Додати контакт
+    </button>
+  </form>
+  <mat-action-list>
+    <mat-list-item *ngFor="let item of items">
+      <div matListItemTitle>{{item}}</div>
+    </mat-list-item>
+  </mat-action-list>
+</div>

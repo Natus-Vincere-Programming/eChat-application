@@ -5,8 +5,7 @@
   padding: 0;
 }
 
-.side-bar-container{
-  background-color: aquamarine;
+.side-bar-container {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -14,7 +13,7 @@
   height: 100%;
 }
 
-.top-bar-container{
+.top-bar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,16 +22,62 @@
   height: 52px;
 }
 
-.contact-container{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 5px;
+.component-list {
+  width: 100%;
+  height: calc(100% - 62px); /* Adjust height to fit within the container */
+  overflow-y: auto;
 }
 
-//
+.avatar-icon {
+
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: auto 10px auto auto;
+
+}
+
+.subtitle {
+  font-size: 12px;
+  color: grey;
+}
+
+mat-list-item {
+  width: 100%;
+  border-radius: 16px;
+  min-height: 70px;
+  display: flex;
+  align-items: center; /* Center items vertically */
+}
+
+mat-action-list {
+  width: 100%;
+}
 
 
+\\
 
+.component-list {
+  width: 100%;
+  height: calc(100% - 62px);
+  overflow-y: auto;
+}
 
+/* Custom scrollbar styles for WebKit browsers */
+.component-list::-webkit-scrollbar {
+  width: 6px;
+}
 
+.component-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.component-list::-webkit-scrollbar-thumb {
+  background: #888;
+  //border-radius: 10px;
+}
+
+.component-list::-webkit-scrollbar-thumb:hover {
+  background: #747474;
+}

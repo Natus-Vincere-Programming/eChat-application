@@ -4,10 +4,11 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgOptimizedImage} from "@angular/common";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
-import {AccountDialogComponent} from "./account-dialog/account-dialog.component";
+import {AccountDialogComponent} from "./dialogs/account-dialog/account-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
 
 @Component({
   selector: 'app-main-page',
@@ -27,7 +28,8 @@ import {MatDialog} from "@angular/material/dialog";
     MatMenuItem,
     MatPrefix,
     MatActionList,
-    MatButton
+    MatButton,
+    NgOptimizedImage
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
@@ -37,7 +39,20 @@ export class MainPageComponent {
   items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10'];
   readonly dialog = inject(MatDialog);
 
-  openDialog() {
-    const dialogRef = this.dialog.open(AccountDialogComponent);
+  openAccountDialog() {
+    const dialogRef = this.dialog.open(AccountDialogComponent, {
+      width: '600px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '100ms',
+    });
+  }
+
+  openContactDialog(){
+    const dialogRef = this.dialog.open(ContactDialogComponent, {
+      width: '560px',
+      height: '500px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '100ms'
+    })
   }
 }
