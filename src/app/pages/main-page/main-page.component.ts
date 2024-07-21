@@ -4,10 +4,11 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {AccountDialogComponent} from "./account-dialog/account-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-main-page',
@@ -27,7 +28,9 @@ import {MatDialog} from "@angular/material/dialog";
     MatMenuItem,
     MatPrefix,
     MatActionList,
-    MatButton
+    MatButton,
+    MatDivider,
+    NgIf
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
