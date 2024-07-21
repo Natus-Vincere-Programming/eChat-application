@@ -1,1 +1,16 @@
-<p>email-verification-page works!</p>
+<div class="page">
+ <div id="emailBox">
+  <div id="textBox">
+    <p id="dis" class="display">Верифікація пошти</p>
+    <p id="inf" class="title">Введіть код отриманий на пошту</p>
+
+  </div>
+  <form class="form">
+    <mat-form-field class="example-full-width">
+      <mat-label>код</mat-label>
+      <input id="input" matInput #message maxlength="8" placeholder="00000000">
+      <mat-hint align="start"><strong>Введіть 8 цифр з коду</strong> </mat-hint>
+    </mat-form-field>
+  </form>
+ </div>
+</div>
