@@ -1,18 +1,38 @@
 .message{
   max-width: 500px;
+  min-width: 250px;
   width: max-content;
-  background-color: gainsboro;
-  border-radius: 8px;
+  border-radius: 16px;
+}
 
+.message-left{
+  display: flex;
+  justify-content: flex-start;
 }
-#text{
-  margin-left: 7px;
-  padding-top: 5px;
-  padding-right: 20px;
+
+.message-right{
+  display: flex;
+  justify-content: flex-end;
 }
-#info{
-  margin-right: 5px;
-  margin-top: -5px;
+
+.message-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.text{
+  padding: 10px 10px;
+}
+.info{
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 10px 5px 0;
   color: gray;
-  font-size: x-small;
+  font-size: small;
+ }
+.trueStyle{
+    right: 0;
+  }
+.falStyle{
+     left: 0;
 }
