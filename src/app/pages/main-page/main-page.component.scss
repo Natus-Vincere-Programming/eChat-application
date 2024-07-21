@@ -1,0 +1,38 @@
+.main-page {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+
+.side-bar-container{
+  background-color: aquamarine;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 400px;
+  height: 100%;
+}
+
+.top-bar-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  width: 350px;
+  height: 52px;
+}
+
+.contact-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+//
+
+
+
+
+
