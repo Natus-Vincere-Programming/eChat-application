@@ -8,8 +8,8 @@ import {Component, Input} from '@angular/core';
   styleUrl: './message.component.scss'
 })
 export class MessageComponent {
-  @Input() text!: string;
-  @Input() time!: string;
-  @Input() stat!: string;
+  @Input() text: string = '';
+  @Input() time: string = '';
+  @Input() stat: string = '';
 
 }

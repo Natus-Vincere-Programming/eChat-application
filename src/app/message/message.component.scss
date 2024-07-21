@@ -2,14 +2,17 @@
   max-width: 500px;
   width: max-content;
   background-color: gainsboro;
-  border-radius: 10px;
+  border-radius: 8px;
 
 }
-.text{
-  margin-left: 15px;
-  padding-top: 10px;
-  padding-right: 10px;
+#text{
+  margin-left: 7px;
+  padding-top: 5px;
+  padding-right: 20px;
 }
-.info{
+#info{
   margin-right: 5px;
+  margin-top: -5px;
+  color: gray;
+  font-size: x-small;
 }
