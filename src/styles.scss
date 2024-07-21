@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use 'app/message/_message-theme.scss' as message-theme;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -26,6 +27,7 @@ $application-theme: mat.define-theme((
 :root {
   @include mat.all-component-themes($application-theme);
   @include mat.all-component-typographies($application-theme);
+  @include message-theme.typography-massage($application-theme);
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.

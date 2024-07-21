@@ -1,0 +1,15 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin typography-massage($theme){
+  .title{
+    font: mat.get-theme-typography(
+    $theme,body-medium,
+    font);
+  }
+  .info{
+    font: mat.get-theme-typography(
+        $theme,body-small,
+        font);
+  }
+}
