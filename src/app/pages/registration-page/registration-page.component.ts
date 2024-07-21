@@ -19,6 +19,7 @@ import {merge, pipe, take} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {NgIf} from "@angular/common";
 import {ErrorMessageHandler} from "../../utility/error-message.handler";
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-registration-page',
@@ -81,6 +82,7 @@ export class RegistrationPageComponent {
   hideAgainPassword: boolean = true;
 
   constructor(
+    private userService: UserService,
     private router: Router,
   ) {
     const nickNameControl = this.registerForm.get('nickName');
@@ -113,6 +115,17 @@ export class RegistrationPageComponent {
     }
   }
 
+  onSubmit(){
+    const {nickName, name, surName, email, password} = this.registerForm.controls;
+    this.userService.registerNewUser({
+      username: nickName.value,
+      firstname: name.value,
+      lastname: surName.value,
+      email: email.value,
+      password: password.value
+    })
+    // TODO navigate to verification page
+  }
 
   clickEvent(event : MouseEvent){
     this.hidePassword = !this.hidePassword;

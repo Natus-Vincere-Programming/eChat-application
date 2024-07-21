@@ -3,7 +3,7 @@
     <div class="title">
       Реєстрація
     </div>
-    <form class="field-box" [formGroup]="registerForm">
+    <form class="field-box" [formGroup]="registerForm" (submit)="onSubmit()">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Нікнейм</mat-label>
         <input matInput type="text" formControlName="nickName">
