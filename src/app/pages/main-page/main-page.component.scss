@@ -74,29 +74,12 @@ mat-action-list {
   border-radius: 100%;
 }
 
-
-\\
-
 .component-list {
   width: 100%;
   height: calc(100% - 62px);
   overflow-y: auto;
 }
 
-/* Custom scrollbar styles for WebKit browsers */
 .component-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.component-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.component-list::-webkit-scrollbar-thumb {
-  background: #888;
-  //border-radius: 10px;
-}
-
-.component-list::-webkit-scrollbar-thumb:hover {
-  background: #747474;
+  display: none;
 }

@@ -9,18 +9,32 @@
   .side-bar-container {
     background-color: mat.get-theme-color($theme, surface-container-high);
   }
-  contact_title{
-    color: mat.get-theme-color($theme, on-primary);
+  .contact_title{
+    color: mat.get-theme-color($theme, on-surface);
   }
   .notification-container{
     background-color: mat.get-theme-color($theme, primary-fixed-dim);
     color: mat.get-theme-color($theme,  on-primary-fixed);
+  }
+
+  .timer_title{
+    color: mat.get-theme-color($theme,  outline);
+  }
+
+  .subtitle{
+    color: mat.get-theme-color($theme,  outline);
   }
 }
 
 @mixin typography($theme) {
   .notification-container{
       font: mat.get-theme-typography($theme, body-medium, font);
+  }
+  .timer_title{
+    font: mat.get-theme-typography($theme, body-small, font);
+  }
+  .subtitle{
+    font: mat.get-theme-typography($theme, body-small, font);
   }
 }
 
