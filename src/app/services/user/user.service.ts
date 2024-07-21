@@ -20,9 +20,9 @@ export class UserService {
    * і null якщо виникла помилка
    * @param request
    */
-  registerNewUser(request: RegisterUserRequest): Promise<RegisterUserResponse> {
-    return new Promise<boolean>((resolve) => {
-      this.http.post(url + '/register', request).subscribe({
+  registerNewUser(request: RegisterUserRequest): Promise<RegisterUserResponse | null> {
+    return new Promise<RegisterUserResponse | null>((resolve) => {
+      this.http.post(this.url + '/register', request).subscribe({
         next: (response: RegisterUserResponse) => {
           resolve(response);
         },
