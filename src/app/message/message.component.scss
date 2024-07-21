@@ -1,11 +1,15 @@
 .message{
   max-width: 500px;
-  background-color: blue;
+  width: max-content;
+  background-color: gainsboro;
   border-radius: 10px;
 
 }
 .text{
   margin-left: 15px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.info{
+  margin-right: 5px;
 }
