@@ -22,7 +22,7 @@ export class UserService {
    */
   registerNewUser(request: RegisterUserRequest): Promise<RegisterUserResponse | null> {
     return new Promise<RegisterUserResponse | null>((resolve) => {
-      this.http.post(this.url + '/register', request).subscribe({
+      this.http.post<RegisterUserResponse>(this.url + '/register', request).subscribe({
         next: (response: RegisterUserResponse) => {
           resolve(response);
         },

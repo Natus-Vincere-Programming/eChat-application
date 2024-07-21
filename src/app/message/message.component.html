@@ -1,4 +1,4 @@
-<div class="message">
+<div class="message" [ngClass]="{'trueStyle':myMess,'falStyle':!myMess}">
 <p class="title" id="text">{{ text }}</p>
   <div id="infobox">
     <p class="info" id="info"  align="right">{{stat}}  {{ time }}</p>
