@@ -2,16 +2,25 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme) {
-  .message-right-bg{
-    background-color: mat.get-theme-color($theme, on-primary);
+  .main-page {
+    background-color: mat.get-theme-color($theme, surface);
   }
-  .message-left-bg{
+  .mat-toolbar {
     background-color: mat.get-theme-color($theme, surface-container-high);
   }
+
+}
+
+@mixin typography($theme) {
+
 }
 
 @mixin theme($theme) {
   @if mat.theme-has($theme, color) {
     @include color($theme);
   }
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
+  }
+
 }

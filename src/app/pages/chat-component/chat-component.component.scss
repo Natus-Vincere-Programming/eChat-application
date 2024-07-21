@@ -1,0 +1,77 @@
+.main-page{
+  width: 100%;
+  height: 100%;
+}
+.chat{
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: auto;
+  margin: auto;
+  //width: 90%;
+}
+
+.app-message{
+  display: flex;
+  align-content: center;
+  width: 100%;
+}
+
+.icon{
+  margin-right:16px;
+}
+
+//
+.chat {
+  max-height: 400px; /* Максимальна висота контейнера з повідомленнями */
+  overflow-y: auto; /* Додає вертикальний скролл */
+  //border: 1px solid #ccc; /* Оформлення рамки для наочності */
+  padding: 10px; /* Відступи всередині контейнера */
+}
+
+.chat app-message {
+  display: block; /* Зробити повідомлення блочними елементами */
+  margin-bottom: 10px; /* Відступ між повідомленнями */
+}
+
+.chat app-message[myMess="true"] {
+  background-color: #e0ffe0; /* Фон для ваших повідомлень */
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.chat app-message[myMess="false"] {
+  background-color: #e0e0ff; /* Фон для отриманих повідомлень */
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.chat::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+.chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.chat:hover::-webkit-scrollbar-thumb   {
+  background: #555;
+}
+
+
+.input-container{
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  width: 100% ;
+  height: 56px;
+}
+
+.input-field{
+  width: 560px;
+  height: 56px;
+}
+

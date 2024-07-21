@@ -1,0 +1,26 @@
+<div class="main-page">
+  <div>
+    <mat-toolbar>
+      <button mat-icon-button class="icon" aria-label="">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>Назар Коробчук</span>
+    </mat-toolbar>
+  </div>
+
+
+  <div class="chat">
+      <app-message text="gkdsgjdhgjd hkjgfhghk jfhdkjhgkjdhgk jfdkjghdjh gjdhfdkghkjfdhgjd" time="12:30" stat="read" [myMess]="true"></app-message>
+      <app-message text="hello Maria" time="12:35" stat="read" [myMess]="false"></app-message>
+      <app-message text="gkdsgjdhgjd hkjgfhghk jfhdkjhgkjdhgk jfdkjghdjh gjdhfdkghkjfdhgjd" time="12:30" stat="read" [myMess]="true"></app-message>
+      <app-message text="hello Maria" time="12:35" stat="read" [myMess]="false"></app-message>
+      <app-message text="gkdsgjdhgjd hkjgfhghk jfhdkjhgkjdhgk jfdkjghdjh gjdhfdkghkjfdhgjd" time="12:30" stat="read" [myMess]="true"></app-message>
+      <app-message text="hello Mariaadsadasda das da dsdfdsfdsgfdsfbf fd sfwhuh" time="12:35" stat="read" [myMess]="false"></app-message>
+  </div>
+  <form class="input-container">
+    <mat-form-field class="input-field" appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+      <input placeholder="Текст" matInput type="text" required>
+    </mat-form-field>
+  </form>
+</div>
+
