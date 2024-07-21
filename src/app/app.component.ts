@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatIconRegistry} from "@angular/material/icon";
+import {MainPageComponent} from "./pages/main-page/main-page.component";
 import {MessageComponent} from "./message/message.component";
 import {EmailVerificationPageComponent} from "./pages/email-verification-page/email-verification-page.component";
-
 
 @Component({
   selector: 'app-root',
@@ -11,6 +11,7 @@ import {EmailVerificationPageComponent} from "./pages/email-verification-page/em
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [RouterOutlet,
+    MainPageComponent,
     EmailVerificationPageComponent,
     MessageComponent]
 })

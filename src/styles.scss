@@ -1,6 +1,5 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use 'app/pages/main-page/main-page-theme.scss' as main-page-theme;
 @use 'app/pages/login-page/login-page-theme.scss' as login-page;
 @use 'app/pages/registration-page/registration-page-theme.scss' as registration-page;
 @use 'app/message/_message-theme.scss' as message-theme;
@@ -12,10 +11,9 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the theme object.
 $application-theme: mat.define-theme((
   color: (
-    theme-type: light,
+    theme-type: dark,
     primary: mat.$azure-palette,
     tertiary: mat.$blue-palette,
   ),
@@ -24,25 +22,20 @@ $application-theme: mat.define-theme((
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
+
 :root {
   @include mat.all-component-themes($application-theme);
   @include mat.all-component-typographies($application-theme);
+  @include main-page-theme.theme($application-theme);
   @include login-page.theme($application-theme);
   @include registration-page.theme($application-theme);
   @include message-theme.typography-massage($application-theme);
   @include email-verification-theme.typography-verification($application-theme);
 }
 
-// Comment out the line below if you want to use the pre-defined typography utility classes.
-// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
 @include mat.typography-hierarchy($application-theme);
 
-// Comment out the line below if you want to use the deprecated `color` inputs.
 @include mat.color-variants-backwards-compatibility($application-theme);
-/* You can add global styles to this file, and also import other style files */
 
 html, body {
   height: 100%;

@@ -1,0 +1,52 @@
+<div class="main-page">
+  <div class="side-bar-container">
+    <form class="top-bar-container">
+      <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openContactDialog()">
+          <mat-icon>person_add</mat-icon>
+          <span>Контакти</span>
+        </button>
+        <button mat-menu-item (click)="openAccountDialog()">
+          <mat-icon>person</mat-icon>
+          <span>Акаунт</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Налаштування</span>
+        </button>
+      </mat-menu>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+        <mat-label>Пошук</mat-label>
+        <input matInput type="text">
+        <button type="button" mat-icon-button matPrefix>
+                <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+    <div class="component-list">
+      <mat-action-list>
+        <mat-list-item *ngFor="let item of items">
+          <div matListItemAvatar>
+            <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
+          </div>
+          <div matListItemTitle class="contact_title">
+            <div>Назар</div>
+            <div class="timer_title">19:20</div>
+          </div>
+          <div matListItemLine class="subtitle">
+            Ви: я гей
+            <div class="notification-container">
+              <strong>99</strong>
+            </div>
+          </div>
+
+        </mat-list-item>
+
+      </mat-action-list>
+
+    </div>
+  </div>
+</div>
