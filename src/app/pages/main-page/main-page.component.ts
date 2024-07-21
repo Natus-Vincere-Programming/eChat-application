@@ -9,6 +9,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {AccountDialogComponent} from "./dialogs/account-dialog/account-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
+import {MatBadge} from "@angular/material/badge";
 
 @Component({
   selector: 'app-main-page',
@@ -29,14 +30,15 @@ import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.co
     MatPrefix,
     MatActionList,
     MatButton,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatBadge
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainPageComponent {
-  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10'];
+  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10', 'Item11', 'Item12', 'Item13'];
   readonly dialog = inject(MatDialog);
 
   openAccountDialog() {
