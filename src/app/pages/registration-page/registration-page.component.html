@@ -1,0 +1,62 @@
+<div class="register-page">
+  <div class="register-box">
+    <div class="title">
+      Реєстрація
+    </div>
+    <form class="field-box" [formGroup]="registerForm" (submit)="onSubmit()">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+        <mat-label>Нікнейм</mat-label>
+        <input matInput type="text" formControlName="nickName">
+        @if(registerForm.get("nickName")?.invalid) {
+          <mat-error>{{errorHandlers.nickName.getErrorMessage()}}</mat-error>
+        }
+      </mat-form-field>
+      <div class="same-information-box">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+          <mat-label>Ім'я</mat-label>
+          <input matInput type="text" formControlName="name" required>
+          @if(registerForm.get("name")?.invalid) {
+            <mat-error>{{errorHandlers.firstName.getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+          <mat-label>Прізвище</mat-label>
+          <input matInput type="text" formControlName="surName" required>
+          @if(registerForm.get("surName")?.invalid) {
+            <mat-error>{{errorHandlers.surName.getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="same-information-box">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+          <mat-label>Електронна адреса</mat-label>
+          <input matInput type="email" formControlName="email">
+          @if(registerForm.get("email")?.invalid) {
+            <mat-error>{{errorHandlers.email.getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+          <mat-label>Пароль</mat-label>
+          <input matInput type="password" [type] = "hidePassword ? 'password' : 'text'" formControlName="password" required>
+          <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Сховати пароль'" [attr.aria-pressed]="hidePassword" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if(registerForm.get("password")?.invalid) {
+            <mat-error>{{errorHandlers.password.getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+          <mat-label>Повторити пароль</mat-label>
+          <input matInput type="password" [type] = "hidePassword ? 'password' : 'text'" formControlName="confirmPassword" required>
+          @if(registerForm.get("confirmPassword")?.invalid) {
+            <mat-error>{{errorHandlers.confirmPassword.getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="buttons">
+        <a mat-button routerLink="/login">Назад</a>
+        <button type="submit" mat-flat-button color="primary">Зареєструватися</button>
+      </div>
+    </form>
+  </div>
+</div>
