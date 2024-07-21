@@ -1,13 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatIconRegistry} from "@angular/material/icon";
+import {MessageComponent} from "./message/message.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet]
+  imports: [RouterOutlet,
+    MessageComponent]
 })
 export class AppComponent implements OnInit {
 
