@@ -120,7 +120,7 @@ export class RegistrationPageComponent {
 
   onSubmit(){
     const {nickName, name, surName, email, password} = this.registerForm.controls;
-    this.userService.registerNewUser({
+    this.userService.registerUser({
       username: nickName.value,
       firstname: name.value,
       lastname: surName.value,
@@ -128,6 +128,7 @@ export class RegistrationPageComponent {
       password: password.value
     }).then(id => {
         if (id === null) return
+        console.log(id);
         this.router.navigate(['/login']);
       }
     );
