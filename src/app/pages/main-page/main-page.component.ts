@@ -58,3 +58,10 @@ export class MainPageComponent {
     })
   }
 }
+
+export interface ChatInfoHandler{
+  username: string,
+  lastmessage: string,
+  lastmessagetime : string,
+  chatid: string
+}
