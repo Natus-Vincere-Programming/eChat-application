@@ -5,7 +5,6 @@ import {User} from "./user.entity";
 import {UUID} from "node:crypto";
 import {RegisterUserRequest} from "./request/register-user.request";
 import {RegisterUserResponse} from "./response/register-user.response";
-import {resolve} from "node:path";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +41,7 @@ export class UserService {
   loginUser(request: LoginUserRequest): Promise<boolean> {
     const encode = (str: string):string => btoa(unescape(encodeURIComponent(str)));
     return new Promise<boolean>((resolve) => {
-      this.http.post<User>(this.url + '/login', null, {
+      this.http.post<User>('http://localhost:8080/login', null, {
         headers: {
           'Authorization': "Basic " + encode(request.email + ":" + request.password)
         }
