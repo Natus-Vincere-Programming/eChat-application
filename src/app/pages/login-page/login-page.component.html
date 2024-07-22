@@ -1,9 +1,9 @@
 <div class="login-page">
   <div class="login-box">
-    <form class="field-box" [formGroup]="loginForm">
+    <form class="field-box" [formGroup]="loginForm" (submit)="onSumbit()">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Електронна адреса</mat-label>
-        <input matInput type="email" formControlName="email" required autocomplete="email">
+        <input matInput type="email" formControlName="email" required>
         @if (loginForm.get("email")?.invalid) {
           <mat-error>{{loginErrorHandlers.email.getErrorMessage()}}</mat-error>
         }
@@ -11,7 +11,7 @@
       <div class="recovery-box">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
           <mat-label>Пароль</mat-label>
-          <input matInput type="password" [type] = "hidePassword ? 'password' : 'text'" formControlName="password" required autocomplete="current-password">
+          <input matInput type="password" [type] = "hidePassword ? 'password' : 'text'" formControlName="password" required>
           <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Сховати пароль'" [attr.aria-pressed]="hidePassword" type="button">
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>

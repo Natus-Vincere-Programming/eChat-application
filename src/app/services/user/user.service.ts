@@ -44,7 +44,7 @@ export class UserService {
    * @param request
    */
   loginUser(request: LoginUserRequest): Promise<boolean> {
-    const encode = (str: string):string => Buffer.from(str, 'binary').toString('base64');
+    const encode = (str: string):string => btoa(unescape(encodeURIComponent(str)));
     return new Promise<boolean>((resolve) => {
       this.http.post<User>(this.url + '/login', null, {
         headers: {
@@ -103,11 +103,11 @@ export class UserService {
   }
 
   private async startUpdateUser() {
-    setInterval(() => {
-      this.getUser().then(user => {
-        if (user == null) return;
-        this.user = user;
-      });
-    }, 60000);
+    // setInterval(() => {
+    //   this.getUser().then(user => {
+    //     if (user == null) return;
+    //     this.user = user;
+    //   });
+    // }, 60000);
   }
 }

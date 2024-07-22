@@ -10,6 +10,7 @@ import {MatIcon} from "@angular/material/icon";
 import {NgIf} from "@angular/common";
 import {ErrorMessageHandler} from "../../utility/error-message.handler";
 import {Router, RouterLink} from "@angular/router";
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-login-page',
@@ -48,6 +49,7 @@ export class LoginPageComponent {
     hidePassword: boolean = true;
 
     constructor(
+      private userService: UserService,
       private router: Router) {
       const {email, password}= this.loginForm.controls;
       merge(email.statusChanges, email.valueChanges, email.updateOn)
@@ -61,6 +63,16 @@ export class LoginPageComponent {
     clickEvent(event : MouseEvent){
       this.hidePassword = !this.hidePassword;
       event.stopPropagation();
+    }
+
+    onSumbit(){
+      const {email, password} = this.loginForm.controls;
+      this.userService.loginUser({
+        email: email.value,
+        password: password.value
+      }).then(id => {
+        this.router.navigate(['']);
+      });
     }
 
     // setInputErrors(): void {
