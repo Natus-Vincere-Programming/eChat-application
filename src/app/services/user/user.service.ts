@@ -1,14 +1,15 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {RegisterUserRequest} from "./request/register-user.request";
 import {RegisterUserResponse} from "./response/register-user.response";
 import {LoginUserRequest} from "./request/login-user.request";
 import {User} from "./user.entity";
+import {UUID} from "node:crypto";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService{
+export class UserService {
 
   user?: User;
   url: string = "http://localhost:8080/users";
@@ -16,8 +17,7 @@ export class UserService{
   constructor(
     private http: HttpClient
   ) {
-    this.getUser();
-    // TODO зробити оновлення користувача кожну хвилину
+    this.startUpdateUser().then(() => console.log('User update started'));
   }
 
   /**
@@ -44,9 +44,22 @@ export class UserService{
    * @param request
    */
   loginUser(request: LoginUserRequest): Promise<boolean> {
-    return new Promise((resolve) => {
-      // TODO зробити реалізацію логіну
-      resolve(true);
+    const encode = (str: string):string => Buffer.from(str, 'binary').toString('base64');
+    return new Promise<boolean>((resolve) => {
+      this.http.post<User>(this.url + '/login', null, {
+        headers: {
+          'Authorization': "Basic " + encode(request.email + ":" + request.password)
+        }
+      }).subscribe({
+        next: (user: User) => {
+          this.user = user;
+          resolve(true);
+        },
+        error: (err) => {
+          console.log(err);
+          resolve(false);
+        }
+      });
     });
   }
 
@@ -59,14 +72,42 @@ export class UserService{
     return this.user;
   }
 
-  private getUser(): void {
-    this.user = {
-      id: "9e17a060-da17-4916-ab16-66ec04b5eaf0",
-      username: "admin",
-      email: "admin@admin.com",
-      firstname: "admin",
-      lastname: "adminovich",
-      status: "ONLINE"
-    };
+  /**
+   * Знаходить користувача по id
+   * @param id
+   */
+  getUserById(id: UUID): Promise<User | null> {
+    return new Promise<User | null>((resolve) => {
+      this.http.get<User>(this.url + "/" + id).subscribe({
+        next: (user: User) => {
+          resolve(user);
+        },
+        error: (err) => {
+          resolve(null);
+        }
+      })
+    });
+  }
+
+  private getUser(): Promise<User | null> {
+    return new Promise<User | null>((resolve) => {
+      this.http.get<User>(this.url + "/info").subscribe({
+        next: (user: User) => {
+          resolve(user);
+        },
+        error: (err) => {
+          resolve(null);
+        }
+      })
+    });
+  }
+
+  private async startUpdateUser() {
+    setInterval(() => {
+      this.getUser().then(user => {
+        if (user == null) return;
+        this.user = user;
+      });
+    }, 60000);
   }
 }
