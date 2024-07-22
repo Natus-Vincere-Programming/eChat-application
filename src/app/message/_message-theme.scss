@@ -8,6 +8,9 @@
   .message-left-bg{
     background-color: mat.get-theme-color($theme, surface-container-high);
   }
+  .input-field{
+    background-color: mat.get-theme-color($theme, surface-container-highest);
+  }
 }
 
 @mixin theme($theme) {

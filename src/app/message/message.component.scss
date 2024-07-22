@@ -1,43 +1,44 @@
-//.container{
-//  width: 100%;
-//
-//}
-
-.message{
-  max-width: 500px;
+.message {
+  max-width: 500px; /* Максимальна ширина повідомлення */
   min-width: 250px;
   width: max-content;
   border-radius: 16px;
+  word-break: break-word; /* Переносить довгі слова на новий рядок */
+  white-space: pre-wrap; /* Зберігає пробіли та переносить текст на новий рядок при необхідності */
 }
 
-.message-left{
+.message-left {
   display: flex;
   justify-content: flex-start;
 }
 
-.message-right{
+.message-right {
   display: flex;
   justify-content: flex-end;
 }
 
-.message-container{
+.message-container {
   display: flex;
   justify-content: space-between;
 }
 
-.text{
+.text {
   padding: 10px 10px;
 }
-.info{
+
+.info {
   display: flex;
   justify-content: flex-end;
   padding: 0 10px 5px 0;
   color: gray;
   font-size: small;
- }
-.trueStyle{
-    right: 0;
-  }
-.falStyle{
-     left: 0;
+}
+
+.trueStyle {
+
+  right: 0;
+}
+
+.falStyle {
+  left: 0;
 }

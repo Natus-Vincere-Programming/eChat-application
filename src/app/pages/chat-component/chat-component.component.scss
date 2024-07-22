@@ -1,54 +1,79 @@
-.main-page{
-  width: 100%;
-  height: 100%;
-}
-.chat{
+.main-page {
   display: flex;
   flex-direction: column;
-  width: 800px;
-  height: auto;
-  margin: auto;
-  //width: 90%;
+  height: 100vh;
+
+  //align-items: center;
 }
 
-.app-message{
+.input-container {
+
   display: flex;
-  align-content: center;
-  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  //padding: 10px;
+  margin: 10px;
+  //background-color: rgba(0, 0, 0, 0.85);
+  position: fixed;
+  bottom: 0;
+  //width: 100%;
+  gap: 10px;
+  width: auto
+;
+  //margin: auto 0;
+  align-self: center;
 }
 
-.icon{
-  margin-right:16px;
+.input-field {
+  display: flex;
+  //background-color: #1f1f27;
+  width: 560px;
 }
 
-//
 .chat {
-  max-height: 400px; /* Максимальна висота контейнера з повідомленнями */
-  overflow-y: auto; /* Додає вертикальний скролл */
-  //border: 1px solid #ccc; /* Оформлення рамки для наочності */
-  padding: 10px; /* Відступи всередині контейнера */
+  flex: 1;
+  overflow-y: auto;
+  //padding: 10px;
+  //margin-bottom: 70px;
+  bottom: 0;
+  padding: 10px 10px 70px 10px;
+
+  scroll-behavior:  smooth;
+  scroll-padding-top: 40px;
+
 }
 
-.chat app-message {
-  display: block; /* Зробити повідомлення блочними елементами */
-  margin-bottom: 10px; /* Відступ між повідомленнями */
+.container {
+  //display: none;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: auto;
+  max-width: 800px;
 }
 
-.chat app-message[myMess="true"] {
-  background-color: #e0ffe0; /* Фон для ваших повідомлень */
+.app-message {
+  display: block;
+}
+
+.app-message[myMess="true"] {
+
   padding: 5px;
-  border-radius: 5px;
+  //border-radius: 5px 5px 0 0;
+
 }
 
-.chat app-message[myMess="false"] {
-  background-color: #e0e0ff; /* Фон для отриманих повідомлень */
+.app-message[myMess="false"] {
+
   padding: 5px;
-  border-radius: 5px;
+  //border-radius: 5px;
 }
 
 .chat::-webkit-scrollbar {
-  width: 10px; /* Width of the scrollbar */
+  width: 10px;
 }
+
 .chat::-webkit-scrollbar-track {
   background: transparent;
 }
@@ -57,21 +82,6 @@
   background: transparent;
 }
 
-.chat:hover::-webkit-scrollbar-thumb   {
+.chat:hover::-webkit-scrollbar-thumb {
   background: #555;
 }
-
-
-.input-container{
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  width: 100% ;
-  height: 56px;
-}
-
-.input-field{
-  width: 560px;
-  height: 56px;
-}
-

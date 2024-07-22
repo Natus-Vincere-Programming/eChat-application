@@ -1,12 +1,8 @@
 <div [ngClass]="{'message-left':myMess,'message-right':!myMess}">
   <div class="message" [ngClass]="{'message-left-bg':myMess,'message-right-bg':!myMess}">
     <div class="message_container">
-      <div class="title">
-        {{ text }}
-      </div>
-      <div class="info">
-        {{stat}} {{time}}
-      </div>
+      <div class="title text">{{text}}</div>
+      <div class="info">{{stat}} {{time}}</div>
     </div>
   </div>
 </div>

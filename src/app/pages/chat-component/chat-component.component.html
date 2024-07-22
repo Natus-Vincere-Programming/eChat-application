@@ -10,16 +10,28 @@
 
 
   <div class="chat">
-      <app-message text="gkdsgjdhgjd hkjgfhghk jfhdkjhgkjdhgk jfdkjghdjh gjdhfdkghkjfdhgjd" time="12:30" stat="read" [myMess]="true"></app-message>
-      <app-message text="hello Maria" time="12:35" stat="read" [myMess]="false"></app-message>
-      <app-message text="gkdsgjdhgjd hkjgfhghk jfhdkjhgkjdhgk jfdkjghdjh gjdhfdkghkjfdhgjd" time="12:30" stat="read" [myMess]="true"></app-message>
-      <app-message text="hello Maria" time="12:35" stat="read" [myMess]="false"></app-message>
-      <app-message text="gkdsgjdhgjd hkjgfhghk jfhdkjhgkjdhgk jfdkjghdjh gjdhfdkghkjfdhgjd" time="12:30" stat="read" [myMess]="true"></app-message>
-      <app-message text="hello Mariaadsadasda das da dsdfdsfdsgfdsfbf fd sfwhuh" time="12:35" stat="read" [myMess]="false"></app-message>
+    <div class="container" #messagesContainer>
+      <app-message
+        *ngFor="let message of messages"
+        [text]="message.text"
+        [time]="message.date"
+        [stat]="message.readStatus"
+        [myMess]="message.userId === 1">
+      </app-message>
+
+    </div>
   </div>
-  <form class="input-container">
+  <form class="input-container" [formGroup]="chatForm">
     <mat-form-field class="input-field" appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
-      <input placeholder="Текст" matInput type="text" required>
+      <input placeholder="Текст"  matInput type="text" formControlName="inputText" (keydown.enter)="onEnter()">
+      <button mat-icon-button matPrefix>
+        <mat-icon>sentiment_very_satisfied</mat-icon>
+      </button>
+
+      <button mat-icon-button matSuffix type="submit" *ngIf="isTextInputNotEmpty()" (click)="onEnter()">
+        <mat-icon>send</mat-icon>
+      </button>
+
     </mat-form-field>
   </form>
 </div>
