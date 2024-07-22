@@ -71,7 +71,9 @@ export class LoginPageComponent {
         email: email.value,
         password: password.value
       }).then(id => {
-        this.router.navigate(['']);
+        if (id) {
+          this.router.navigate(['']);
+        }
       });
     }
 
