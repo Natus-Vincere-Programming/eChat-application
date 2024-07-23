@@ -22,6 +22,7 @@ import {ErrorMessageHandler} from "../../utility/error-message.handler";
 import {UserService} from "../../services/user/user.service";
 import {LoginPageComponent} from "../login-page/login-page.component";
 import {log} from "node:util";
+import {AuthenticationService} from "../../services/authentication/authentication.service";
 
 @Component({
   selector: 'app-registration-page',
@@ -84,7 +85,7 @@ export class RegistrationPageComponent {
   hideAgainPassword: boolean = true;
 
   constructor(
-    private userService: UserService,
+    private authenticationService: AuthenticationService,
     private router: Router,
   ) {
     const nickNameControl = this.registerForm.get('nickName');
@@ -120,15 +121,15 @@ export class RegistrationPageComponent {
 
   onSubmit(){
     const {nickName, name, surName, email, password} = this.registerForm.controls;
-    this.userService.register({
+    this.authenticationService.register({
       username: nickName.value,
       firstname: name.value,
       lastname: surName.value,
       email: email.value,
       password: password.value
-    }).then(id => {
-        if (id === null) return
-        console.log(id);
+    }).then(isRegistered => {
+        if (isRegistered === null) return
+        console.log(isRegistered);
         this.router.navigate(['/login']);
       }
     );

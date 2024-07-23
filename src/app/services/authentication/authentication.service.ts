@@ -43,23 +43,24 @@ export class AuthenticationService {
    * Реєстрація користувача
    * @param request
    */
-  register(request: RegisterRequest): Promise<RegisterResponse | null> {
-    return new Promise<RegisterResponse | null>(resolve => {
-      this.http.post<RegisterResponse>(this.url+"/register", request).subscribe({
-        next: (response: RegisterResponse) => {
+  register(request: RegisterRequest): Promise<boolean> {
+    return new Promise<boolean>(resolve => {
+      this.http.post<AuthenticationResponse>(this.url+ "/register", request).subscribe({
+        next: (response: AuthenticationResponse) => {
+          this.jwtService.saveAccessToken(response.access_token);
           console.debug('User registered successfully');
           console.trace(response);
-          resolve(response)
+          resolve(true)
         },
         error: (error: HttpErrorResponse) => {
           console.trace(error);
-          resolve(null)
+          resolve(false)
         }
       })
     })
   }
 
-  isEmailTaken(email: string) {
+  isEmailTaken(email: string): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       this.http.get<boolean>(this.url + "/email?email=" + email).subscribe({
         next: (response: boolean) => {
