@@ -1,6 +1,6 @@
 <div class="login-page">
   <div class="login-box">
-    <form class="field-box" [formGroup]="loginForm" (submit)="onSumbit()">
+    <form class="field-box" [formGroup]="loginForm" (submit)="onSubmit()">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Електронна адреса</mat-label>
         <input matInput type="email" formControlName="email" required>
