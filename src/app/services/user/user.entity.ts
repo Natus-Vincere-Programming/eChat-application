@@ -1,7 +1,6 @@
-import {UUID} from "node:crypto";
 
 export interface User {
-  id: UUID,
+  id: string,
   username: string,
   email: string,
   firstname: string,

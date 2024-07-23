@@ -6,18 +6,18 @@
     </button>
   </div>
   <mat-divider></mat-divider>
-  <form class="enter-nickname">
+  <form class="enter-nickname" [formGroup]="inputForm" (submit)="OnSubmit()">
     <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
       <mat-label>Нікнейм нового контакта</mat-label>
-      <input matInput type="text" required>
+      <input matInput type="text" formControlName="input" required>
     </mat-form-field>
     <button type="submit" mat-flat-button>
       Додати контакт
     </button>
   </form>
   <mat-action-list>
-    <mat-list-item *ngFor="let item of items">
-      <div matListItemTitle>{{item}}</div>
+    <mat-list-item *ngFor="let item of userInfo">
+      <div matListItemTitle>{{item.firstname + " " + item.lastname}}</div>
     </mat-list-item>
   </mat-action-list>
 </div>
