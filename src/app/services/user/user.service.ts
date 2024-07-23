@@ -40,13 +40,8 @@ export class UserService {
    * @param request
    */
   loginUser(request: LoginUserRequest): Promise<boolean> {
-    const encode = (str: string):string => btoa(unescape(encodeURIComponent(str)));
     return new Promise<boolean>((resolve) => {
-      this.http.post<User>(this.url + '/login', null, {
-        headers: {
-          'Authorization': "Basic " + encode(request.email + ":" + request.password)
-        }
-      }).subscribe({
+      this.http.post<User>(this.url + '/api/v1/auth/authenticate', request).subscribe({
         next: (user: User) => {
           this.user = user;
           resolve(true);

@@ -11,6 +11,7 @@ import {NgIf} from "@angular/common";
 import {ErrorMessageHandler} from "../../utility/error-message.handler";
 import {Router, RouterLink} from "@angular/router";
 import {UserService} from "../../services/user/user.service";
+import {AuthenticationService} from "../../services/authentication/authentication.service";
 
 @Component({
   selector: 'app-login-page',
@@ -49,7 +50,7 @@ export class LoginPageComponent {
     hidePassword: boolean = true;
 
     constructor(
-      private userService: UserService,
+      private authenticationService: AuthenticationService,
       private router: Router) {
       const {email, password}= this.loginForm.controls;
       merge(email.statusChanges, email.valueChanges, email.updateOn)
@@ -65,13 +66,13 @@ export class LoginPageComponent {
       event.stopPropagation();
     }
 
-    onSumbit(){
+    onSubmit(){
       const {email, password} = this.loginForm.controls;
-      this.userService.loginUser({
+      this.authenticationService.loginUser({
         email: email.value,
         password: password.value
-      }).then(id => {
-        if (id) {
+      }).then(login => {
+        if (login) {
           this.router.navigate(['']);
         }
       });
