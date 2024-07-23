@@ -1,7 +1,7 @@
 <div class="main-page">
   <div class="side-bar-container">
     <form class="top-bar-container">
-      <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
+      <button class="menu" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -14,12 +14,11 @@
           <span>Log Out</span>
         </button>
       </mat-menu>
-      <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+      <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Пошук</mat-label>
-        <input matInput type="text">
-        <button type="button" mat-icon-button matPrefix>
-                <mat-icon>search</mat-icon>
-        </button>
+        <input  matInput type="text" >
+        <mat-icon matPrefix class="search-icon" >search</mat-icon>
+
       </mat-form-field>
     </form>
     <div class="component-list">
@@ -35,7 +34,7 @@
           <div matListItemLine class="subtitle">
             Ви: я гей
             <div class="notification-container">
-              <strong>99</strong>
+              <strong>+99</strong>
             </div>
           </div>
 
