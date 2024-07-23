@@ -2,19 +2,29 @@
   max-width: 500px; /* Максимальна ширина повідомлення */
   min-width: 250px;
   width: max-content;
-  border-radius: 16px;
+  //border-radius: 16px;
   word-break: break-word; /* Переносить довгі слова на новий рядок */
   white-space: pre-wrap; /* Зберігає пробіли та переносить текст на новий рядок при необхідності */
 }
 
+
 .message-left {
   display: flex;
   justify-content: flex-start;
+
+}
+.message-left .message{
+  border-radius: 16px 16px 16px 0;
 }
 
 .message-right {
   display: flex;
   justify-content: flex-end;
+
+}
+
+.message-right .message{
+  border-radius: 16px 16px 0 16px;
 }
 
 .message-container {
@@ -38,6 +48,7 @@
 
   right: 0;
 }
+
 
 .falStyle {
   left: 0;
