@@ -65,7 +65,6 @@ export class LoginPageComponent {
       this.hidePassword = !this.hidePassword;
       event.stopPropagation();
     }
-
     onSubmit(){
       const {email, password} = this.loginForm.controls;
       this.authenticationService.loginUser({
@@ -78,18 +77,13 @@ export class LoginPageComponent {
       });
     }
 
-    // setInputErrors(): void {
-    //   const {email, password}= this.loginForm.controls;
-    //   email.setErrors({invalidCredentials: true});
-    //   password.setErrors({invalidCredentials: true});
-    //   merge(email.valueChanges)
-    //     .pipe(take(1))
-    //     .subscribe(() => email.setErrors(null));
-    //   merge(password.valueChanges)
-    //     .pipe(take(1))
-    //     .subscribe(() => password.setErrors(null));
-    // }
-}
+    setInputErrors(): void {
+      const {email}= this.loginForm.controls;
+      email.setErrors({invalidCredentials: true});
+      merge(email.valueChanges)
+        .pipe(take(1))
+        .subscribe(() => email.setErrors(null));
+    }
 
 interface LoginErrorHandlers {
   email: ErrorMessageHandler;

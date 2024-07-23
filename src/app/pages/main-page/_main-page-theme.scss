@@ -24,6 +24,10 @@
   .subtitle{
     color: mat.get-theme-color($theme,  outline);
   }
+
+  .dialog{
+    background-color: mat.get-theme-color($theme, on-secondary-fixed);
+  }
 }
 
 @mixin typography($theme) {

@@ -5,7 +5,6 @@ import {User} from "./user.entity";
 import {UUID} from "node:crypto";
 import {RegisterUserRequest} from "./request/register-user.request";
 import {RegisterUserResponse} from "./response/register-user.response";
-import {resolve} from "node:path";
 
 @Injectable({
   providedIn: 'root'
