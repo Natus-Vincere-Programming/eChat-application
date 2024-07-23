@@ -44,6 +44,8 @@ interface MessageEntity {
   styleUrl: './chat-component.component.scss'
 })
 export class ChatComponentComponent {
+  @ViewChild("endOfChat") endOfChat!:ElementRef;
+
   chatForm: FormGroup=new FormGroup({
     inputText : new FormControl("", [])
   });
@@ -95,9 +97,18 @@ export class ChatComponentComponent {
         readStatus: 'read'
       }
     ];
+
+    this.scrollToBottom();
   }
 
+  scrollToBottom(){
+      setTimeout(()=>{
+        if(this.endOfChat){
+          this.endOfChat.nativeElement.scrollIntoView({behavior:"smooth"})
+        }
+      },10)
 
+  }
 
   isTextInputNotEmpty(): boolean {
     const inputValue = this.chatForm.get('inputText')?.value;
@@ -113,6 +124,7 @@ export class ChatComponentComponent {
         readStatus: 'unread'
       };
       this.messages.push(newMessage);
+      this.scrollToBottom();
       console.log('Повідомлення надіслано:', newMessage);
       this.chatForm.controls['inputText'].setValue('');
     }

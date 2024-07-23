@@ -10,7 +10,7 @@
 
 
   <div class="chat">
-    <div class="container" #messagesContainer>
+    <div class="container">
       <app-message
         *ngFor="let message of messages"
         [text]="message.text"
@@ -20,6 +20,7 @@
       </app-message>
 
     </div>
+    <div #endOfChat></div>
   </div>
   <form class="input-container" [formGroup]="chatForm">
     <mat-form-field class="input-field" appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
