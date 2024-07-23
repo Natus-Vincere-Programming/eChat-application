@@ -120,7 +120,7 @@ export class RegistrationPageComponent {
 
   onSubmit(){
     const {nickName, name, surName, email, password} = this.registerForm.controls;
-    this.userService.registerUser({
+    this.userService.register({
       username: nickName.value,
       firstname: name.value,
       lastname: surName.value,

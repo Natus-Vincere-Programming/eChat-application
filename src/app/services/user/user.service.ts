@@ -3,8 +3,8 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {LoginUserRequest} from "./request/login-user.request";
 import {User} from "./user.entity";
 import {UUID} from "node:crypto";
-import {RegisterUserRequest} from "./request/register-user.request";
-import {RegisterUserResponse} from "./response/register-user.response";
+import {RegisterRequest} from "../authentication/request/register.request";
+import {RegisterResponse} from "../authentication/response/register.response";
 import {resolve} from "node:path";
 
 @Injectable({
@@ -19,39 +19,6 @@ export class UserService {
     private http: HttpClient
   ) {
     this.startUpdateUser().then(() => console.log('User update started'));
-  }
-
-  registerUser(request: RegisterUserRequest) {
-    return new Promise<RegisterUserResponse | null>(resolve => {
-      this.http.post<RegisterUserResponse>(this.url+"/register", request).subscribe({
-        next: (response: RegisterUserResponse) => {
-          resolve(response)
-        },
-        error: (error: HttpErrorResponse) => {
-          resolve(null)
-        }
-      })
-    })
-  }
-
-  /**
-   * Повертає true якщо логін пройшов успішно і false якщо пошта і пароль
-   * неправильні
-   * @param request
-   */
-  loginUser(request: LoginUserRequest): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
-      this.http.post<User>(this.url + '/api/v1/auth/authenticate', request).subscribe({
-        next: (user: User) => {
-          this.user = user;
-          resolve(true);
-        },
-        error: (err) => {
-          console.log(err);
-          resolve(false);
-        }
-      });
-    });
   }
 
   /**
