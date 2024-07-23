@@ -1,0 +1,21 @@
+<div class="settings-dialog">
+  <h3 mat-dialog-title>Налаштування</h3>
+  <mat-dialog-content>
+    <div class="session" *ngFor="let session of sessions; let i = index">
+      <mat-checkbox [(ngModel)]="session.selected"></mat-checkbox>
+      <div class="session-info">
+        <div>IP: {{session.ip}}</div>
+        <div>{{session.location}}</div>
+      </div>
+      <div class="session-browser">{{session.browser}}</div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="buttons">
+    <button mat-dialog-close mat-raised-button>
+      Скасувати
+    </button>
+    <button mat-flat-button (click)="logout()">
+      Вийти
+    </button>
+  </mat-dialog-actions>
+</div>
