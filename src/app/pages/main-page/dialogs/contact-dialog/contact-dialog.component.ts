@@ -38,8 +38,7 @@ import {merge, take} from "rxjs";
   styleUrl: './contact-dialog.component.scss'
 })
 export class ContactDialogComponent implements OnInit{
-  items = ['item1', 'item2', 'item3', 'item4'];
-  inputForm : FormGroup = new FormGroup(
+ inputForm : FormGroup = new FormGroup(
     {
       input : new FormControl("", [])
     }

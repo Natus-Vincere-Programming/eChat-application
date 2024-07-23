@@ -43,19 +43,6 @@ export class ChatAndContactService {
     })
   }
 
-  getChatInfo(chatId : string) : Promise<AllContact | null>{
-    return new Promise<AllContact | null>((resolve) => {
-      this.http.get<AllContact>(this.url + '/messages/' + chatId + '/last').subscribe({
-        next: (contact: AllContact) => {
-          resolve(contact);
-        },
-        error: (err) => {
-          resolve(null);
-        }
-      })
-    })
-  }
-
   createNewContact(contactRequest : ContactRequest) : Promise<ContactResponse> {
     return new Promise<ContactResponse>((resolve) => {
       this.http.post<ContactResponse>(this.url + '/contacts', contactRequest).subscribe({
