@@ -7,6 +7,7 @@ import {EmailVerificationPageComponent} from "./pages/email-verification-page/em
 import {AuthenticationService} from "./services/authentication/authentication.service";
 import {JwtService} from "./services/jwt/jwt.service";
 import {UserService} from "./services/user/user.service";
+import {ContactService} from "./services/contact/contact.service";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private authenticationService: AuthenticationService,
     private jwtService: JwtService,
-    private userService: UserService
+    private userService: UserService,
+    private contactService: ContactService
   ) {
   }
 
