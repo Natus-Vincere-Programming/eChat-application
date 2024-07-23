@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ChatResponse} from "./response/chat.response";
 import {HttpClient} from "@angular/common/http";
-import {User} from "../../../../../../Desktop/user/user.entity";
 import {AllContact} from "./response/all-chat.response";
 import {ContactResponse} from "./response/contact.response";
 import {ContactRequest} from "./request/contact.request";
