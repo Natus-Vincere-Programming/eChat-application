@@ -68,7 +68,7 @@ export class LoginPageComponent {
 
     onSubmit(){
       const {email, password} = this.loginForm.controls;
-      this.authenticationService.loginUser({
+      this.authenticationService.authenticate({
         email: email.value,
         password: password.value
       }).then(login => {

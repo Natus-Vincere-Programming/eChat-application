@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {LoginRequest} from "./request/login.request";
-import {LoginResponse} from "./response/login.response";
+import {AuthenticationRequest} from "./request/authentication.request";
+import {AuthenticationResponse} from "./response/authentication.response";
+import {JwtService} from "../jwt/jwt.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,17 @@ import {LoginResponse} from "./response/login.response";
 export class AuthenticationService {
   url: string = 'http://localhost:8080/api/v1/auth';
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private jwtService: JwtService
+  ) {
   }
 
-  loginUser(request: LoginRequest): Promise<boolean> {
+  authenticate(request: AuthenticationRequest): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      this.http.post<LoginResponse>(this.url + '/authenticate', request).subscribe({
-        next: (response: LoginResponse) => {
-          localStorage.setItem('access_token', response.access_token);
+      this.http.post<AuthenticationResponse>(this.url + '/authenticate', request).subscribe({
+        next: (response: AuthenticationResponse) => {
+          this.jwtService.saveAccessToken(response.access_token);
           resolve(true);
         },
         error: (err) => {
@@ -26,8 +30,4 @@ export class AuthenticationService {
       });
     });
   }
-
-
-
-
 }

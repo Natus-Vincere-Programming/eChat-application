@@ -4,6 +4,8 @@ import {MatIconRegistry} from "@angular/material/icon";
 import {MainPageComponent} from "./pages/main-page/main-page.component";
 import {MessageComponent} from "./message/message.component";
 import {EmailVerificationPageComponent} from "./pages/email-verification-page/email-verification-page.component";
+import {AuthenticationService} from "./services/authentication/authentication.service";
+import {JwtService} from "./services/jwt/jwt.service";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,11 @@ import {EmailVerificationPageComponent} from "./pages/email-verification-page/em
 })
 export class AppComponent implements OnInit {
 
-  constructor(private iconRegistry: MatIconRegistry) {
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    private authenticationService: AuthenticationService,
+    private jwtService: JwtService
+  ) {
   }
 
   ngOnInit(): void {
