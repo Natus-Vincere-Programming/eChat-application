@@ -1,0 +1,15 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin typography-setting($theme){
+  .headline{
+    font: mat.get-theme-typography(
+        $theme,headline-small,
+        font);
+  }
+  .info{
+    font: mat.get-theme-typography(
+        $theme,body-small,
+        font);
+  }
+}
