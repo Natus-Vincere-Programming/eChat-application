@@ -1,6 +1,8 @@
-<div class="message">
-<p class="title" id="text">{{ text }}</p>
-  <div id="infobox">
-    <p class="info" id="info"  align="right">{{stat}}  {{ time }}</p>
+<div [ngClass]="{'message-left':myMess,'message-right':!myMess}">
+  <div class="message" [ngClass]="{'message-left-bg':myMess,'message-right-bg':!myMess}">
+    <div class="message_container">
+      <div class="title text">{{text}}</div>
+      <div class="info">{{stat}} {{time}}</div>
+    </div>
   </div>
 </div>

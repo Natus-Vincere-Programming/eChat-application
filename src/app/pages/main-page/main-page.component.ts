@@ -4,12 +4,15 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
+import {NgForOf, NgIf} from "@angular/common";
 import {DatePipe, NgForOf, NgOptimizedImage} from "@angular/common";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatDialog} from "@angular/material/dialog";
+import {MatDivider} from "@angular/material/divider";
 import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
 import {MatBadge} from "@angular/material/badge";
 import {LogoutDialogComponent} from "./dialogs/logout-dialog/logout-dialog.component";
+import {SettingsDialogComponent} from "./dialogs/settings-dialog/settings-dialog.component";
 import {UserService} from "../../services/user/user.service";
 import {User} from "../../services/user/user.entity";
 import {ChatService} from "../../services/chat.service";
@@ -36,6 +39,8 @@ import {CreateChatDialogComponent} from "./dialogs/create-chat-dialog/create-cha
     MatPrefix,
     MatActionList,
     MatButton,
+    MatDivider,
+    NgIf
     NgOptimizedImage,
     MatBadge,
     DatePipe,
@@ -130,6 +135,13 @@ export class MainPageComponent implements OnInit{
       exitAnimationDuration: '100ms'
     })
   }
+
+}
+
+export interface ChatInfoHandler{
+  username: string,
+  lastmessage: string,
+  lastmessagetime : string,
 }
 
 interface Chat{

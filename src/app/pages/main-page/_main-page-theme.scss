@@ -35,7 +35,7 @@
 
 @mixin typography($theme) {
   .notification-container{
-      font: mat.get-theme-typography($theme, body-medium, font);
+      font: mat.get-theme-typography($theme, body-small, font);
   }
   .timer_title{
     font: mat.get-theme-typography($theme, body-small, font);
