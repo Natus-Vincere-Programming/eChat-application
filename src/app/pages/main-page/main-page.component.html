@@ -14,9 +14,11 @@
           <span>Вихід</span>
         </button>
       </mat-menu>
-      <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+      <mat-form-field class="search-field" appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Пошук</mat-label>
-        <button mat-icon-button color="primary" matSuffix (click)="filterMessages()"><mat-icon>search</mat-icon></button>
+        <button mat-icon-button color="primary" matSuffix (click)="filterMessages()">
+          <mat-icon>search</mat-icon>
+        </button>
         <input (keydown.enter)="filterMessages()" matInput type="text" formControlName="search" placeholder="Введіть ім'я">
       </mat-form-field>
     </form>
@@ -25,14 +27,16 @@
         <mat-list-item *ngFor="let message of filteredMessages" [routerLink]="'/' + message.chatId">
           <div matListItemAvatar matBadge="⠀" matBadgeSize="large" matBadgePosition="above before"
                [ngClass]="{'online-badge': message.receiverStatus === 'ONLINE', 'offline-badge': message.receiverStatus === 'OFFLINE'}">
-            <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
+            <div class="avatar-initials" [style.background-color]="color">
+              {{ getInitials(message.receiverName) }}
+            </div>
           </div>
           <div matListItemTitle class="contact_title">
-            <div>{{message.receiverName}}</div>
-            <div class="timer_title">{{getFormattedDate(message.createdAt)}}</div>
+            <div>{{ message.receiverName }}</div>
+            <div class="timer_title">{{ getFormattedDate(message.createdAt) }}</div>
           </div>
           <div matListItemLine class="subtitle">
-            {{message.lastMessage}}
+            {{ message.lastMessage }}
             <div class="notification-container" *ngIf="message.amountOfUnreadMessages !== 0">
               <strong>{{ message.amountOfUnreadMessages }}</strong>
             </div>
@@ -40,8 +44,11 @@
         </mat-list-item>
       </mat-action-list>
       <button mat-fab class="message-button" (click)="openCreateChatDialog()">
-        <mat-icon>add_comme nt</mat-icon>
+        <mat-icon>add_comment</mat-icon>
       </button>
     </div>
+  </div>
+  <div class="content-container">
+    <router-outlet></router-outlet>
   </div>
 </div>

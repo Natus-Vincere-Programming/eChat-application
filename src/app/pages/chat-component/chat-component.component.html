@@ -5,7 +5,7 @@
         <mat-icon>arrow_back</mat-icon>
       </button>
       <div class="statusAndNick">
-        <span>Назар Коробчук</span>
+        <span>{{userReciever?.firstname + ' ' + userReciever?.lastname}}</span>
         <span>Online</span>
       </div>
     </mat-toolbar>
@@ -16,10 +16,10 @@
     <div class="container">
       <app-message
         *ngFor="let message of messages"
-        [text]="message.text"
-        [time]="message.date"
-        [stat]="message.readStatus"
-        [myMess]="message.userId === 1">
+        [text]="message.message"
+        [time]="getFormattedDate(message.createdAt)"
+        [stat]="message.status"
+        [myMess]="ifMyMessage(message)">
       </app-message>
 
     </div>

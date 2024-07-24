@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, input, ViewChild} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, ElementRef, input, OnInit, ViewChild} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatToolbar} from "@angular/material/toolbar";
@@ -10,6 +10,15 @@ import {merge, pipe} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
+import {UserService} from "../../services/user/user.service";
+import {Message} from "@stomp/stompjs";
+import {MessageService} from "../../services/message/message.service";
+import {ChatService} from "../../services/chat/chat.service";
+import {MessageResponse} from "../../services/message/response/message.response";
+import {SendMessageRequest} from "../../services/message/request/send-message.request";
+import {UserResponse} from "../../services/user/response/user.response";
+import {resolveObjectURL} from "node:buffer";
+import {ChatResponse} from "../../services/chat/response/chat.response";
 
 
 interface MessageEntity {
@@ -44,62 +53,48 @@ interface MessageEntity {
   templateUrl: './chat-component.component.html',
   styleUrl: './chat-component.component.scss'
 })
-export class ChatComponentComponent {
+export class ChatComponentComponent implements OnInit{
   @ViewChild("endOfChat") endOfChat!:ElementRef;
 
   chatForm: FormGroup=new FormGroup({
     inputText : new FormControl("", [])
   });
-  messages: MessageEntity[] = [];
+  messages: MessageResponse[] = [];
+  user?: UserResponse;
+  userReciever? : UserResponse;
 
 
 
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private userService : UserService,
+    private messageService : MessageService,
+    private chatService : ChatService,
+    private cdr: ChangeDetectorRef
+  ) {
     const{inputText} = this.chatForm.controls;
     merge(inputText.valueChanges, inputText.statusChanges, inputText.updateOn)
       .pipe(takeUntilDestroyed())
+  }
 
-    this.messages = [
-      {
-        userId: 1,
-        text: 'Привіт! Як справи?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      },
-      {
-        userId: 2,
-        text: 'Все добре, дякую! А у тебе?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'unread'
-      },
-      {
-        userId: 1,
-        text: 'Теж все добре!',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      },
-      {
-        userId: 1,
-        text: 'Привіт! Як справи?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      },
-      {
-        userId: 2,
-        text: 'Все добре, дякую! А у тебе?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'unread'
-      },
-      {
-        userId: 1,
-        text: 'Теж все добре!',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      }
-    ];
-
-    this.scrollToBottom();
+  ngOnInit(): void {
+      this.userService.getAuthenticated().then(user => {
+        if (user === null) return;
+        this.user = user
+      })
+      this.messageService.getMessages(this.getChatIdFromUrl()).then(messages => {
+        this.messages = messages;
+      })
+      this.cdr.detectChanges();
+      this.chatService.getByChatId(this.getChatIdFromUrl()).then(chat => {
+        if (chat === null) return;
+        this.userService.getById(chat.receiverId).then(user => {
+          if (user === null) return;
+          this.userReciever = user;
+        })
+      })
+      this.scrollToBottom();
   }
 
   scrollToBottom(){
@@ -120,16 +115,44 @@ export class ChatComponentComponent {
     return this.route.snapshot.params['id'];
   }
 
+  getFormattedDate(createdAtMillis: number): string {
+    const currentDate = new Date();
+    const createdAtDate = new Date(createdAtMillis);
+
+    if (
+      createdAtDate.getDate() === currentDate.getDate() &&
+      createdAtDate.getMonth() === currentDate.getMonth() &&
+      createdAtDate.getFullYear() === currentDate.getFullYear()
+    ) {
+      return `${createdAtDate.getHours()}:${createdAtDate.getMinutes()}`;
+    }
+
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(currentDate.getDate() - 1);
+
+    if (
+      createdAtDate.getDate() === yesterday.getDate() &&
+      createdAtDate.getMonth() === yesterday.getMonth() &&
+      createdAtDate.getFullYear() === yesterday.getFullYear()
+    ) {
+      return 'Вчора';
+    }
+
+    return `${createdAtDate.getFullYear()}`;
+  }
+
   sendMessage(message: string) {
     if (this.isTextInputNotEmpty()) {
-      const newMessage: MessageEntity = {
-        userId: 2,
-        text: message,
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'unread'
+      const newMessage: SendMessageRequest = {
+        chatId : this.getChatIdFromUrl(),
+        text : message
       };
-      this.messages.push(newMessage);
+      this.messageService.sendMessage(newMessage).then(message => {
+        if (message === null) return;
+        this.messages.push(message);
+      })
       this.scrollToBottom();
+      this.cdr.detectChanges();
       console.log('Повідомлення надіслано:', newMessage);
       this.chatForm.controls['inputText'].setValue('');
     }
@@ -139,5 +162,19 @@ export class ChatComponentComponent {
       this.sendMessage(this.chatForm.get('inputText')?.value);
     }
   }
+
+  ifMyMessage(message : MessageResponse){
+    if (message.senderId === this.user?.id){
+      return false;
+    }
+    else if(message.senderId !== this.user?.id){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  protected readonly Date = Date;
 }
 

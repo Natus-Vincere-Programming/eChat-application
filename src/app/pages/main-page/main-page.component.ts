@@ -18,7 +18,7 @@ import {ContactService} from "../../services/contact/contact.service";
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatResponse} from "../../services/chat/response/chat.response";
 import {ChatInformation} from "../../services/chat/chat.information";
-import {RouterLink, RouterOutlet} from "@angular/router";
+import {RouterOutlet} from "@angular/router";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {merge} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -60,6 +60,7 @@ import {RouterLink} from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainPageComponent implements OnInit {
+  color: string =  '#33FF57';
   readonly dialog = inject(MatDialog);
   filteredMessages : ChatInformation[] = [];
   searchTerm: string = '';
@@ -103,7 +104,6 @@ export class MainPageComponent implements OnInit {
       });
     });
   }
-
 
   getFormattedDate(createdAt: Date): string {
     const currentDate = new Date();
@@ -193,6 +193,18 @@ export class MainPageComponent implements OnInit {
     })
     this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
+
+
+  getInitials(name: string): string {
+    const nameArray = name.split(' ');
+    const initials = nameArray[0].charAt(0) + (nameArray[1] ? nameArray[1].charAt(0) : '');
+    return initials.toUpperCase();
+  }
+
+
+
+
+
 
   protected readonly onkeydown = onkeydown;
 }
