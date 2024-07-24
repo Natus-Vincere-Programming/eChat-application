@@ -12,10 +12,6 @@
   height: 100%;
 }
 
-.mat-list-item-avatar{
-  border-radius: 100%;
-}
-
 .top-bar-container {
   display: flex;
   justify-content: space-between;
@@ -32,12 +28,16 @@
   position: relative;
 }
 
-.avatar-icon {
+.avatar-initials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  display: block;
-  margin: auto 10px auto auto;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .contact_title {
@@ -87,16 +87,6 @@ mat-action-list {
   bottom: 20px;
 }
 
-.component-list {
-  width: 100%;
-  height: calc(100% - 62px);
-  overflow-y: auto;
-}
-
-.component-list::-webkit-scrollbar {
-  display: none;
-}
-
 mat-form-field.search-field {
   --mat-form-field-container-height: 40px;
   --mat-form-field-container-vertical-padding: 8px;
@@ -117,6 +107,5 @@ mat-icon.search-icon {
 
 .content-container {
   flex-grow: 1;
-
   overflow: auto;
 }
