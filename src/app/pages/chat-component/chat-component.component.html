@@ -16,10 +16,10 @@
     <div class="container">
       <app-message
         *ngFor="let message of messages"
-        [text]="message.text"
-        [time]="message.date"
-        [stat]="message.readStatus"
-        [myMess]="message.userId === 1">
+        [text]="message.message"
+        [time]="message.createdAt.toString()"
+        [stat]="message.status"
+        [myMess]="ifMyMessage(message)">
       </app-message>
 
     </div>

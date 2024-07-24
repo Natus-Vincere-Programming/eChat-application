@@ -10,6 +10,14 @@ import {merge, pipe} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
+import {UserService} from "../../services/user/user.service";
+import {Message} from "@stomp/stompjs";
+import {MessageService} from "../../services/message/message.service";
+import {ChatService} from "../../services/chat/chat.service";
+import {MessageResponse} from "../../services/message/response/message.response";
+import {SendMessageRequest} from "../../services/message/request/send-message.request";
+import {UserResponse} from "../../services/user/response/user.response";
+import {resolveObjectURL} from "node:buffer";
 
 
 interface MessageEntity {
@@ -50,54 +58,24 @@ export class ChatComponentComponent {
   chatForm: FormGroup=new FormGroup({
     inputText : new FormControl("", [])
   });
-  messages: MessageEntity[] = [];
+  messages: MessageResponse[] = [];
 
 
 
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private userService : UserService,
+    private messageService : MessageService,
+    private chatService : ChatService
+  ) {
     const{inputText} = this.chatForm.controls;
     merge(inputText.valueChanges, inputText.statusChanges, inputText.updateOn)
       .pipe(takeUntilDestroyed())
 
-    this.messages = [
-      {
-        userId: 1,
-        text: 'Привіт! Як справи?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      },
-      {
-        userId: 2,
-        text: 'Все добре, дякую! А у тебе?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'unread'
-      },
-      {
-        userId: 1,
-        text: 'Теж все добре!',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      },
-      {
-        userId: 1,
-        text: 'Привіт! Як справи?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      },
-      {
-        userId: 2,
-        text: 'Все добре, дякую! А у тебе?',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'unread'
-      },
-      {
-        userId: 1,
-        text: 'Теж все добре!',
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'read'
-      }
-    ];
+    this.messageService.getMessages(this.getChatIdFromUrl()).then(messages => {
+      this.messages = messages;
+    })
 
     this.scrollToBottom();
   }
@@ -122,13 +100,14 @@ export class ChatComponentComponent {
 
   sendMessage(message: string) {
     if (this.isTextInputNotEmpty()) {
-      const newMessage: MessageEntity = {
-        userId: 2,
-        text: message,
-        date: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
-        readStatus: 'unread'
+      const newMessage: SendMessageRequest = {
+        chatId : this.getChatIdFromUrl(),
+        text : message
       };
-      this.messages.push(newMessage);
+      this.messageService.sendMessage(newMessage).then(message => {
+        if (message === null) return;
+        this.messages.push(message);
+      })
       this.scrollToBottom();
       console.log('Повідомлення надіслано:', newMessage);
       this.chatForm.controls['inputText'].setValue('');
@@ -137,6 +116,20 @@ export class ChatComponentComponent {
   onEnter() {
     if(this.isTextInputNotEmpty()){
       this.sendMessage(this.chatForm.get('inputText')?.value);
+    }
+  }
+
+  ifMyMessage(message : MessageResponse){
+    let userAuth : UserResponse | undefined;
+    this.userService.getAuthenticated().then(user => {
+      if (user === null) return;
+      userAuth = user
+    })
+    if (message.senderId === userAuth?.id){
+      return true;
+    }
+    else if(message.senderId !== userAuth?.id){
+      return false;
     }
   }
 }
