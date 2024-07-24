@@ -21,6 +21,7 @@
 .message-right {
   display: flex;
   justify-content: flex-end;
+}
 
 
 .message-right{
@@ -46,10 +47,4 @@
   padding: 0 10px 5px 0;
   color: gray;
   font-size: small;
-}
-.trueStyle{
-    right: 0;
-  }
-.falStyle{
-     left: 0;
 }

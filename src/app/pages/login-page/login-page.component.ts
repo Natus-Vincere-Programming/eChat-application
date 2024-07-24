@@ -80,6 +80,9 @@ export class LoginPageComponent {
       if (login) {
         this.router.navigate(['']);
       }
+      else{
+        this.setInputErrors()
+      }
     });
   }
 
