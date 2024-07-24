@@ -9,6 +9,9 @@ import {JwtService} from "./services/jwt/jwt.service";
 import {UserService} from "./services/user/user.service";
 import {ContactService} from "./services/contact/contact.service";
 import {ChatService} from "./services/chat/chat.service";
+import {RedirectService} from "./services/redirect/redirect.service";
+import {NgIf} from "@angular/common";
+import {MessageService} from "./services/message/message.service";
 
 @Component({
   selector: 'app-root',
@@ -18,9 +21,10 @@ import {ChatService} from "./services/chat/chat.service";
   imports: [RouterOutlet,
     MainPageComponent,
     EmailVerificationPageComponent,
-    MessageComponent]
+    MessageComponent, NgIf]
 })
 export class AppComponent implements OnInit {
+  readyToRender: boolean = false;
 
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -28,36 +32,16 @@ export class AppComponent implements OnInit {
     private jwtService: JwtService,
     private userService: UserService,
     private contactService: ContactService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private redirectService: RedirectService,
+    private messageService: MessageService
   ) {
   }
 
   ngOnInit(): void {
     this.iconRegistry.setDefaultFontSetClass('material-symbols-rounded');
-    this.authenticationService.authenticate({
-      email: 'test@gmail.com',
-      password: 'test'
-    }).then(ignore => {
-      this.chatService.getAllChats().then(chats => {
-        console.trace("Chats " + chats);
-      })
-      this.userService.findByUsername("tetst1").then(user => {
-        if (user === null) return;
-        this.chatService.createChat({
-          receiverId: user.id
-        }).then(response => {
-          if (response === null) {
-            console.log('Chat not created');
-            return;
-          }
-          this.chatService.getByChatId(response.chatId).then(chat => {
-            console.trace("Chat by id " + chat);
-          })
-          this.chatService.deleteChat(response.chatId).then(ignore => {
-            console.log('Chat deleted');
-          });
-        })
-      })
-    })
+    this.redirectService.checkAuthorization().then(() => {
+      this.readyToRender = true;
+    });
   }
 }
