@@ -5,20 +5,18 @@ import {MatButton, MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
 import {NgForOf, NgIf} from "@angular/common";
-import {DatePipe, NgForOf, NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgOptimizedImage} from "@angular/common";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatDialog} from "@angular/material/dialog";
 import {MatDivider} from "@angular/material/divider";
-import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
 import {MatBadge} from "@angular/material/badge";
 import {LogoutDialogComponent} from "./dialogs/logout-dialog/logout-dialog.component";
 import {SettingsDialogComponent} from "./dialogs/settings-dialog/settings-dialog.component";
 import {UserService} from "../../services/user/user.service";
 import {User} from "../../services/user/user.entity";
-import {ChatService} from "../../services/chat.service";
 import {MessageService} from "../../services/message/message.service";
-import {ChatAndContactService} from "../../services/contact/chat-and-contact.service";
 import {CreateChatDialogComponent} from "./dialogs/create-chat-dialog/create-chat-dialog.component";
+import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
 
 @Component({
   selector: 'app-main-page',
@@ -40,7 +38,7 @@ import {CreateChatDialogComponent} from "./dialogs/create-chat-dialog/create-cha
     MatActionList,
     MatButton,
     MatDivider,
-    NgIf
+    NgIf,
     NgOptimizedImage,
     MatBadge,
     DatePipe,
@@ -57,7 +55,6 @@ export class MainPageComponent implements OnInit{
 
   constructor(
     private userService: UserService,
-    private contactService: ChatAndContactService,
     private messageService: MessageService
   ) {
   }

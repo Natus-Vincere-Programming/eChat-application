@@ -1,0 +1,14 @@
+<div class="display">
+  <div class="dialog">
+    <h3 mat-dialog-title>Видалити контакт</h3>
+    <mat-dialog-content>Ви дійсно бажаєте видалити цей контакт?</mat-dialog-content>
+  </div>
+  <mat-dialog-actions class="buttons">
+    <button mat-dialog-close mat-raised-button (click)="closeDialog()">
+      Скасувати
+    </button>
+    <button type="submit" mat-flat-button (click)="onConfirm()">
+      Так
+    </button>
+  </mat-dialog-actions>
+</div>
