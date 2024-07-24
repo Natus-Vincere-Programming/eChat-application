@@ -9,6 +9,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {merge, pipe} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
 
 
 interface MessageEntity {
@@ -133,10 +134,6 @@ export class ChatComponentComponent {
     if(this.isTextInputNotEmpty()){
       this.sendMessage(this.chatForm.get('inputText')?.value);
     }
-
-
-
-
   }
 }
 

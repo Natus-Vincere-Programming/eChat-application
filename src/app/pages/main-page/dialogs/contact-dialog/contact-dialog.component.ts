@@ -3,7 +3,7 @@ import {MatDialog, MatDialogClose, MatDialogTitle} from "@angular/material/dialo
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
 import {NgForOf, NgIf} from "@angular/common";
@@ -37,7 +37,8 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
     MatListItem,
     NgForOf,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSuffix
   ],
   templateUrl: './contact-dialog.component.html',
   styleUrl: './contact-dialog.component.scss'

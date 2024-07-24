@@ -18,6 +18,10 @@ import {ContactService} from "../../services/contact/contact.service";
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatResponse} from "../../services/chat/response/chat.response";
 import {ChatInformation} from "../../services/chat/chat.information";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {merge} from "rxjs";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-main-page',
@@ -44,7 +48,10 @@ import {ChatInformation} from "../../services/chat/chat.information";
     MatBadge,
     DatePipe,
     MatFabButton,
-    NgClass
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
@@ -52,8 +59,13 @@ import {ChatInformation} from "../../services/chat/chat.information";
 })
 export class MainPageComponent implements OnInit {
   readonly dialog = inject(MatDialog);
+  filteredMessages : ChatInformation[] = [];
+  searchTerm: string = '';
   messageInfo: ChatInformation[] = []
   chatInfo: ChatResponse[] = []
+  searchForm: FormGroup = new FormGroup({
+    search : new FormControl("", [Validators.required])
+  })
 
   constructor(
     private userService: UserService,
@@ -62,21 +74,34 @@ export class MainPageComponent implements OnInit {
     private chatService: ChatService,
     private cdr: ChangeDetectorRef
   ) {
+    const {search} = this.searchForm.controls;
+    merge(search.statusChanges, search.valueChanges, search.updateOn)
+      .pipe(takeUntilDestroyed())
   }
 
   ngOnInit(): void {
+    this.loadChats();
+
+    this.searchForm.get('search')?.valueChanges.subscribe(() => {
+      this.filterMessages();
+    });
+  }
+
+  loadChats() {
     this.chatService.getAllChats().then(chats => {
       if (chats === null) return;
       this.chatInfo = chats;
-      for (const chat of chats) {
-        this.chatService.getInformation(chat.chatId).then(info => {
-          this.messageInfo.push(info);
-          this.cdr.detectChanges(); // Додаємо цей виклик для оновлення
-        });
-      }
-      this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      const infoPromises = chats.map(chat => this.chatService.getInformation(chat.chatId));
+
+      Promise.all(infoPromises).then(infoArray => {
+        this.messageInfo = infoArray;
+        this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+        this.filteredMessages = [...this.messageInfo];
+        this.cdr.detectChanges(); // Trigger change detection
+      });
     });
   }
+
 
   getFormattedDate(createdAt: Date): string {
     const currentDate = new Date();
@@ -102,6 +127,26 @@ export class MainPageComponent implements OnInit {
     }
 
     return `${createdAtDate.getFullYear()}`;
+  }
+
+  filterMessages() {
+    console.log('Search Term:', this.searchTerm);
+    console.log('Original Messages:', this.messageInfo);
+    const{search} = this.searchForm.controls;
+    this.searchTerm = search.value;
+    if (!this.searchTerm.trim()) {
+      this.filteredMessages = this.messageInfo;
+    } else {
+      this.filteredMessages = this.messageInfo
+        .filter(message =>
+          message.receiverName.toLowerCase().includes(this.searchTerm.trim().toLowerCase())
+        )
+        .sort((a, b) =>
+          a.receiverName.localeCompare(b.receiverName)
+        );
+    }
+
+    console.log('Filtered Messages:', this.filteredMessages);
   }
 
   openLogOutDialog() {
@@ -146,6 +191,8 @@ export class MainPageComponent implements OnInit {
     })
     this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
+
+  protected readonly onkeydown = onkeydown;
 }
 
 export interface ChatInfoHandler {

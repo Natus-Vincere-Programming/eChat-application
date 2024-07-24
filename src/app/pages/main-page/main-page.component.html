@@ -1,7 +1,7 @@
 <div class="main-page">
   <div class="side-bar-container">
-    <form class="top-bar-container">
-      <button class="menu" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
+    <form class="top-bar-container" [formGroup]="searchForm">
+      <button class="menu" type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -16,21 +16,20 @@
       </mat-menu>
       <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Пошук</mat-label>
-        <input matInput type="text">
-        <button type="button" mat-icon-button matPrefix>
-          <mat-icon>search</mat-icon>
-        </button>
+        <button mat-icon-button color="primary" matSuffix (click)="filterMessages()"><mat-icon>search</mat-icon></button>
+        <input (keydown.enter)="filterMessages()" matInput type="text" formControlName="search" placeholder="Введіть ім'я">
       </mat-form-field>
     </form>
     <div class="component-list">
       <mat-action-list>
-        <mat-list-item *ngFor="let message of messageInfo">
-          <div matListItemAvatar matBadge="⠀" matBadgeSize="large" matBadgePosition="above before" [ngClass]="{'online-badge': message.receiverStatus === 'ONLINE', 'offline-badge': message.receiverStatus === 'OFFLINE'}">
+        <mat-list-item *ngFor="let message of filteredMessages">
+          <div matListItemAvatar matBadge="⠀" matBadgeSize="large" matBadgePosition="above before"
+               [ngClass]="{'online-badge': message.receiverStatus === 'ONLINE', 'offline-badge': message.receiverStatus === 'OFFLINE'}">
             <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
           </div>
           <div matListItemTitle class="contact_title">
             <div>{{message.receiverName}}</div>
-            <div class="timer_title">{{this.getFormattedDate(message.createdAt)}}</div>
+            <div class="timer_title">{{getFormattedDate(message.createdAt)}}</div>
           </div>
           <div matListItemLine class="subtitle">
             {{message.lastMessage}}
