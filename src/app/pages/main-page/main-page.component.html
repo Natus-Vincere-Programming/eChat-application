@@ -22,7 +22,7 @@
     </form>
     <div class="component-list">
       <mat-action-list>
-        <mat-list-item *ngFor="let message of filteredMessages">
+        <mat-list-item *ngFor="let message of filteredMessages" [routerLink]="'/' + message.chatId">
           <div matListItemAvatar matBadge="⠀" matBadgeSize="large" matBadgePosition="above before"
                [ngClass]="{'online-badge': message.receiverStatus === 'ONLINE', 'offline-badge': message.receiverStatus === 'OFFLINE'}">
             <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">

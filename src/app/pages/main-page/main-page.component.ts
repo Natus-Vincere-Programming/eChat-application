@@ -18,6 +18,7 @@ import {ContactService} from "../../services/contact/contact.service";
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatResponse} from "../../services/chat/response/chat.response";
 import {ChatInformation} from "../../services/chat/chat.information";
+import {RouterLink, RouterOutlet} from "@angular/router";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {merge} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -48,6 +49,7 @@ import {RouterLink} from "@angular/router";
     MatBadge,
     DatePipe,
     MatFabButton,
+    RouterOutlet,
     NgClass,
     FormsModule,
     ReactiveFormsModule,

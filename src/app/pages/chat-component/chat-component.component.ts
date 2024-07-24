@@ -55,7 +55,7 @@ export class ChatComponentComponent {
 
 
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     const{inputText} = this.chatForm.controls;
     merge(inputText.valueChanges, inputText.statusChanges, inputText.updateOn)
       .pipe(takeUntilDestroyed())
@@ -114,6 +114,10 @@ export class ChatComponentComponent {
   isTextInputNotEmpty(): boolean {
     const inputValue = this.chatForm.get('inputText')?.value;
     return inputValue != null && inputValue.length > 0;
+  }
+
+  getChatIdFromUrl(): string {
+    return this.route.snapshot.params['id'];
   }
 
   sendMessage(message: string) {
