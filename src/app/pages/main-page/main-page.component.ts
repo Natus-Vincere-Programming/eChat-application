@@ -1,25 +1,20 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
-import {NgForOf, NgIf} from "@angular/common";
-import {DatePipe, NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatDialog} from "@angular/material/dialog";
 import {MatDivider} from "@angular/material/divider";
 import {MatBadge} from "@angular/material/badge";
 import {LogoutDialogComponent} from "./dialogs/logout-dialog/logout-dialog.component";
-import {SettingsDialogComponent} from "./dialogs/settings-dialog/settings-dialog.component";
 import {UserService} from "../../services/user/user.service";
-import {User} from "../../services/user/user.entity";
 import {MessageService} from "../../services/message/message.service";
 import {CreateChatDialogComponent} from "./dialogs/create-chat-dialog/create-chat-dialog.component";
 import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
-import {MessageResponse} from "../../services/message/response/message.response";
 import {ContactService} from "../../services/contact/contact.service";
-import {ContactResponse} from "../../services/contact/response/contact.response";
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatResponse} from "../../services/chat/response/chat.response";
 import {ChatInformation} from "../../services/chat/chat.information";
@@ -56,10 +51,10 @@ import {RouterOutlet} from "@angular/router";
   styleUrl: './main-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainPageComponent implements OnInit{
+export class MainPageComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  messageInfo : ChatInformation[] = []
-  chatInfo : ChatResponse[] = []
+  messageInfo: ChatInformation[] = []
+  chatInfo: ChatResponse[] = []
 
   constructor(
     private userService: UserService,
@@ -110,7 +105,7 @@ export class MainPageComponent implements OnInit{
     return `${createdAtDate.getFullYear()}`;
   }
 
-  openLogOutDialog(){
+  openLogOutDialog() {
     const dialogRef = this.dialog.open(LogoutDialogComponent, {
       width: '312px',
       height: '200px',
@@ -119,7 +114,7 @@ export class MainPageComponent implements OnInit{
     })
   }
 
-  openContactDialog(){
+  openContactDialog() {
     const dialogRef = this.dialog.open(ContactDialogComponent, {
       width: '560px',
       height: '500px',
@@ -136,26 +131,41 @@ export class MainPageComponent implements OnInit{
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '100ms'
     })
+    dialogRef.afterClosed().subscribe(info => {
+      if (info) {
+        let isExist : boolean = true
+        for (let mess of this.messageInfo) {
+          if (mess.chatId == info.chatId){
+            isExist = false;
+          }
+        }
+        if (isExist) {
+          this.messageInfo.push(info);
+          this.cdr.detectChanges();
+        }
+      }
+    })
+    this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 }
 
-export interface ChatInfoHandler{
+export interface ChatInfoHandler {
   username: string,
   lastmessage: string,
-  lastmessagetime : string,
+  lastmessagetime: string,
 }
 
-interface Chat{
-  chatId : string,
-  senderId : string,
-  receiverId : string
+interface Chat {
+  chatId: string,
+  senderId: string,
+  receiverId: string
 }
 
 interface LastMessage {
-  id : string,
-  chatId : string,
-  senderId : string,
-  message : string,
-  status : string,
-  createdAt : Date
+  id: string,
+  chatId: string,
+  senderId: string,
+  message: string,
+  status: string,
+  createdAt: Date
 }
