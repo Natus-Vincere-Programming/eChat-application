@@ -24,7 +24,7 @@
     </form>
     <div class="component-list">
       <mat-action-list>
-        <mat-list-item *ngFor="let message of messageInfo">
+        <mat-list-item *ngFor="let message of messageInfo" [routerLink]="'/' + message.chatId">
           <div matListItemAvatar>
             <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
           </div>
