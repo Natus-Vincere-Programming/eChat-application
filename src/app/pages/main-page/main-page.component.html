@@ -34,8 +34,8 @@
           </div>
           <div matListItemLine class="subtitle">
             {{message.lastMessage}}
-            <div class="notification-container">
-              <strong>99</strong>
+            <div class="notification-container" *ngIf="message.amountOfUnreadMessages !== 0">
+              <strong>{{ message.amountOfUnreadMessages }}</strong>
             </div>
           </div>
         </mat-list-item>
