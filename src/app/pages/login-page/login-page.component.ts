@@ -10,6 +10,8 @@ import {MatIcon} from "@angular/material/icon";
 import {NgIf} from "@angular/common";
 import {ErrorMessageHandler} from "../../utility/error-message.handler";
 import {Router, RouterLink} from "@angular/router";
+import {UserService} from "../../services/user/user.service";
+import {AuthenticationService} from "../../services/authentication/authentication.service";
 
 @Component({
   selector: 'app-login-page',
@@ -48,6 +50,7 @@ export class LoginPageComponent {
     hidePassword: boolean = true;
 
     constructor(
+      private authenticationService: AuthenticationService,
       private router: Router) {
       const {email, password}= this.loginForm.controls;
       merge(email.statusChanges, email.valueChanges, email.updateOn)
@@ -62,19 +65,25 @@ export class LoginPageComponent {
       this.hidePassword = !this.hidePassword;
       event.stopPropagation();
     }
+    onSubmit(){
+      const {email, password} = this.loginForm.controls;
+      this.authenticationService.loginUser({
+        email: email.value,
+        password: password.value
+      }).then(login => {
+        if (login) {
+          this.router.navigate(['']);
+        }
+      });
+    }
 
-    // setInputErrors(): void {
-    //   const {email, password}= this.loginForm.controls;
-    //   email.setErrors({invalidCredentials: true});
-    //   password.setErrors({invalidCredentials: true});
-    //   merge(email.valueChanges)
-    //     .pipe(take(1))
-    //     .subscribe(() => email.setErrors(null));
-    //   merge(password.valueChanges)
-    //     .pipe(take(1))
-    //     .subscribe(() => password.setErrors(null));
-    // }
-}
+    setInputErrors(): void {
+      const {email}= this.loginForm.controls;
+      email.setErrors({invalidCredentials: true});
+      merge(email.valueChanges)
+        .pipe(take(1))
+        .subscribe(() => email.setErrors(null));
+    }
 
 interface LoginErrorHandlers {
   email: ErrorMessageHandler;

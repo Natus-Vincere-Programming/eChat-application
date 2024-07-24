@@ -20,6 +20,8 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {NgIf} from "@angular/common";
 import {ErrorMessageHandler} from "../../utility/error-message.handler";
 import {UserService} from "../../services/user/user.service";
+import {LoginPageComponent} from "../login-page/login-page.component";
+import {log} from "node:util";
 
 @Component({
   selector: 'app-registration-page',
@@ -48,7 +50,7 @@ export class RegistrationPageComponent {
     {
       nickName: new FormControl(
         "",
-        [Validators.required, Validators.pattern('[a-zA-Z]*')]
+        [Validators.required, Validators.pattern('[a-zA-Z1-9]*')]
       ),
       name: new FormControl(
         "",
@@ -115,15 +117,21 @@ export class RegistrationPageComponent {
     }
   }
 
+
   onSubmit(){
     const {nickName, name, surName, email, password} = this.registerForm.controls;
-    this.userService.registerNewUser({
+    this.userService.registerUser({
       username: nickName.value,
       firstname: name.value,
       lastname: surName.value,
       email: email.value,
       password: password.value
-    })
+    }).then(id => {
+        if (id === null) return
+        console.log(id);
+        this.router.navigate(['/login']);
+      }
+    );
     // TODO navigate to verification page
   }
 

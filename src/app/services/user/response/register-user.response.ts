@@ -1,3 +1,4 @@
+
 export interface RegisterUserResponse{
-  id: string;
+  id: string
 }
