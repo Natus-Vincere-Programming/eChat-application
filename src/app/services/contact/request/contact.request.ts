@@ -1,5 +1,3 @@
-
-
 export interface ContactRequest {
-  contactId: string
+  contactId: string;
 }
