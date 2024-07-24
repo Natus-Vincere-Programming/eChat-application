@@ -4,6 +4,7 @@ export interface ChatInformation {
   receiverId: string;
   senderName: string;
   receiverName: string;
+  receiverStatus: 'OFFLINE' | 'ONLINE',
   lastMessage: string;
   statusLastMessage: 'SENT' | 'DELIVERED' | 'READ';
   createdAt: Date

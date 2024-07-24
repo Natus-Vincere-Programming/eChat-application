@@ -4,7 +4,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
-import {DatePipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatDialog} from "@angular/material/dialog";
 import {MatDivider} from "@angular/material/divider";
@@ -45,6 +45,7 @@ import {RouterOutlet} from "@angular/router";
     MatBadge,
     DatePipe,
     MatFabButton,
+    NgClass
     RouterOutlet
   ],
   templateUrl: './main-page.component.html',

@@ -44,6 +44,7 @@ export class ChatService {
         receiverId: "",
         senderName: "",
         receiverName: "",
+        receiverStatus: "OFFLINE",
         lastMessage: "",
         statusLastMessage: 'SENT',
         createdAt: new Date(),
@@ -70,6 +71,7 @@ export class ChatService {
               this.userService.getById(information.receiverId).then(receiver => {
                 if (receiver !== null){
                   information.receiverName = receiver.firstname + " " + receiver.lastname;
+                  information.receiverStatus = receiver.status;
                 }
                 resolve(information);
               });
