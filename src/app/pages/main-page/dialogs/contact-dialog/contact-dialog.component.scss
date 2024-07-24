@@ -13,6 +13,8 @@
 }
 
 .fullList{
+  user-select: none;
+
   display: flex;
   flex-direction: column;
   gap: 10px;

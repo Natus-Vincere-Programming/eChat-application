@@ -138,10 +138,6 @@ export class ChatComponentComponent {
     if(this.isTextInputNotEmpty()){
       this.sendMessage(this.chatForm.get('inputText')?.value);
     }
-
-
-
-
   }
 }
 

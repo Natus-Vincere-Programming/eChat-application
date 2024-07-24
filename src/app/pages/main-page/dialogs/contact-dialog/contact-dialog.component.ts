@@ -3,7 +3,7 @@ import {MatDialog, MatDialogClose, MatDialogTitle} from "@angular/material/dialo
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
 import {NgForOf, NgIf} from "@angular/common";
@@ -17,6 +17,7 @@ import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 import {ContactRequest} from "../../../../services/contact/request/contact.request";
 import {merge, take} from "rxjs";
 import {ErrorMessageHandler} from "../../../../utility/error-message.handler";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-contact-dialog',
@@ -36,7 +37,8 @@ import {ErrorMessageHandler} from "../../../../utility/error-message.handler";
     MatListItem,
     NgForOf,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSuffix
   ],
   templateUrl: './contact-dialog.component.html',
   styleUrl: './contact-dialog.component.scss'
@@ -59,6 +61,9 @@ export class ContactDialogComponent implements OnInit{
     private contactService: ContactService
   ) {
     const {input} = this.inputForm.controls;
+    merge(input.statusChanges, input.valueChanges, input.updateOn)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.errorHandler.input.updateErrorMessage(input));
   }
 
   OnSubmit() {
@@ -75,7 +80,15 @@ export class ContactDialogComponent implements OnInit{
           if (id) {
             this.userService.getById(id.contactId).then(user => {
               if (user === null) return;
-              this.users.push(user);
+              let isExist = true
+              for (let userId of this.users){
+                if (userId.id === user.id) {
+                  isExist = false;
+                }
+              }
+              if (isExist) {
+                this.users.push(user);
+              }
             })
           } else {
             this.setInputErrors();
@@ -88,16 +101,8 @@ export class ContactDialogComponent implements OnInit{
   }
 
   setInputErrors(): void {
-    const { input } = this.inputForm.controls;
-    this.userService.findByUsername(input.value).then(user => {
-      if (user === null) {
-        input.setErrors({ invalidCredentials: true });
-      } else {
-        this.user = user;
-        input.setErrors(null);
-      }
-    });
-
+    const {input} = this.inputForm.controls;
+    input.setErrors({invalidCredentials: true});
     merge(input.valueChanges)
       .pipe(take(1))
       .subscribe(() => input.setErrors(null));

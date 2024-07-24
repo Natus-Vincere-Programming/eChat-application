@@ -4,11 +4,16 @@
 }
 
 .side-bar-container {
+  user-select: none;
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 400px;
   height: 100%;
+}
+
+.mat-list-item-avatar{
+  border-radius: 100%;
 }
 
 .top-bar-container {

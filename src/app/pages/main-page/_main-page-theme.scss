@@ -31,6 +31,13 @@
   .message-button{
     background-color:  mat.get-theme-color($theme, on-secondary-fixed);
   }
+  .online-badge .mat-badge-content {
+    background-color: green ;
+  }
+
+  .offline-badge .mat-badge-content {
+    background-color: gray ;
+  }
 }
 
 @mixin typography($theme) {
