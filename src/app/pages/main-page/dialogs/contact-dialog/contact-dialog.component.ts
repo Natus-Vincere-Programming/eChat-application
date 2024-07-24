@@ -1,5 +1,5 @@
-import {Component, ErrorHandler, OnInit} from '@angular/core';
-import {MatDialogClose, MatDialogTitle} from "@angular/material/dialog";
+import {Component, inject, OnInit} from '@angular/core';
+import {MatDialog, MatDialogClose, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
@@ -7,12 +7,16 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
 import {NgForOf, NgIf} from "@angular/common";
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {ContactResponse} from "../../../../services/contact/response/contact.response";
 import {User} from "../../../../services/user/user.entity";
 import {UserService} from "../../../../services/user/user.service";
-import {ChatAndContactService} from "../../../../services/contact/chat-and-contact.service";
-import {ErrorMessageHandler} from "../../../../utility/error-message.handler";
+import {ContactService} from "../../../../services/contact/contact.service";
+import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {UserResponse} from "../../../../services/user/response/user.response";
+import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
+import {ContactRequest} from "../../../../services/contact/request/contact.request";
 import {merge, take} from "rxjs";
+import {ErrorMessageHandler} from "../../../../utility/error-message.handler";
 
 @Component({
   selector: 'app-contact-dialog',
@@ -38,40 +42,41 @@ import {merge, take} from "rxjs";
   styleUrl: './contact-dialog.component.scss'
 })
 export class ContactDialogComponent implements OnInit{
- inputForm : FormGroup = new FormGroup(
+
+  readonly dialog = inject(MatDialog);
+  inputForm : FormGroup = new FormGroup(
     {
-      input : new FormControl("", [])
+      input: new FormControl('', [])
     }
-  );
+  )
   errorHandler : InputErrorHandler = {
     input : new ErrorMessageHandler("", "", "Користувача не існує")
   };
-  userInfo : User[] = []
-  contactInfo : Contact[] = []
-  userBuffer? : User
-
-
+  users: UserResponse[] = [];
+  user?: UserResponse
   constructor(
     private userService: UserService,
-    private contactService: ChatAndContactService
-
+    private contactService: ContactService
   ) {
     const {input} = this.inputForm.controls;
-
   }
 
   OnSubmit() {
     const { input } = this.inputForm.controls;
     const userName = input.value;
 
-    this.userService.getUserByUserName(userName).then(user => {
+    this.userService.findByUsername(userName).then(user => {
       if (user) {
         const contactRequest: ContactRequest = {
           contactId: user.id
         };
 
-        this.contactService.createNewContact(contactRequest).then(id => {
+        this.contactService.addContact(contactRequest).then(id => {
           if (id) {
+            this.userService.getById(id.contactId).then(user => {
+              if (user === null) return;
+              this.users.push(user);
+            })
           } else {
             this.setInputErrors();
           }
@@ -84,11 +89,11 @@ export class ContactDialogComponent implements OnInit{
 
   setInputErrors(): void {
     const { input } = this.inputForm.controls;
-    this.userService.getUserByUserName(input.value).then(user => {
+    this.userService.findByUsername(input.value).then(user => {
       if (user === null) {
         input.setErrors({ invalidCredentials: true });
       } else {
-        this.userBuffer = user;
+        this.user = user;
         input.setErrors(null);
       }
     });
@@ -98,31 +103,39 @@ export class ContactDialogComponent implements OnInit{
       .subscribe(() => input.setErrors(null));
   }
 
+  onListClick(id : string){
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '312px',
+      height: '200px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '100ms',
+      data: { id: id }
+    })
+    dialogRef.afterClosed()
+      .pipe(take(1))
+      .subscribe(id => {
+        if (id == null){
+          return;
+        }
+        this.users.splice(this.users.findIndex(user => user.id === id), 1)
+      });
+  }
 
   ngOnInit(): void {
-        this.contactService.getAllContacts().then(contacts => {
-          this.contactInfo = contacts;
-          for (const contact of contacts) {
-            this.userService.getUserById(contact.id).then(user => {
-              if (user === null) return;
-              this.userInfo.push(user);
-            })
+        this.contactService.getContacts().then(contacts => {
+          if (contacts) {
+            for (let contact of contacts) {
+              this.userService.getById(contact.contactId).then(user => {
+                if (user === null) return;
+                this.users?.push(user);
+              })
+            }
           }
         })
     }
 }
 
-interface Contact{
-  id : string,
-  contactId : string
-}
-
 interface InputErrorHandler {
   input: ErrorMessageHandler;
 }
-
-interface ContactRequest {
-  contactId : string
-}
-
-

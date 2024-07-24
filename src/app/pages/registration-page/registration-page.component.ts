@@ -22,6 +22,7 @@ import {ErrorMessageHandler} from "../../utility/error-message.handler";
 import {UserService} from "../../services/user/user.service";
 import {LoginPageComponent} from "../login-page/login-page.component";
 import {log} from "node:util";
+import {AuthenticationService} from "../../services/authentication/authentication.service";
 
 @Component({
   selector: 'app-registration-page',
@@ -86,6 +87,7 @@ export class RegistrationPageComponent {
   constructor(
     private userService: UserService,
     private router: Router,
+    private authenticationService: AuthenticationService
   ) {
     const nickNameControl = this.registerForm.get('nickName');
     const emailControl = this.registerForm.get('email');
@@ -120,21 +122,22 @@ export class RegistrationPageComponent {
 
   onSubmit(){
     const {nickName, name, surName, email, password} = this.registerForm.controls;
-    this.userService.registerUser({
+    this.authenticationService.register({
       username: nickName.value,
       firstname: name.value,
       lastname: surName.value,
       email: email.value,
       password: password.value
     }).then(id => {
-        if (id === null) return
-        console.log(id);
-        this.router.navigate(['/login']);
+        if (id) {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/login'])
+        }
       }
     );
     // TODO navigate to verification page
   }
-
   clickEvent(event : MouseEvent){
     this.hidePassword = !this.hidePassword;
     this.hideAgainPassword = !this.hideAgainPassword;
