@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, input, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, input, OnInit, ViewChild} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatToolbar} from "@angular/material/toolbar";
@@ -52,13 +52,14 @@ interface MessageEntity {
   templateUrl: './chat-component.component.html',
   styleUrl: './chat-component.component.scss'
 })
-export class ChatComponentComponent {
+export class ChatComponentComponent implements OnInit{
   @ViewChild("endOfChat") endOfChat!:ElementRef;
 
   chatForm: FormGroup=new FormGroup({
     inputText : new FormControl("", [])
   });
   messages: MessageResponse[] = [];
+  user?: UserResponse;
 
 
 
@@ -79,6 +80,13 @@ export class ChatComponentComponent {
 
     this.scrollToBottom();
   }
+
+  ngOnInit(): void {
+      this.userService.getAuthenticated().then(user => {
+        if (user === null) return;
+        this.user = user
+      })
+    }
 
   scrollToBottom(){
       setTimeout(()=>{
@@ -120,15 +128,13 @@ export class ChatComponentComponent {
   }
 
   ifMyMessage(message : MessageResponse){
-    let userAuth : UserResponse | undefined;
-    this.userService.getAuthenticated().then(user => {
-      if (user === null) return;
-      userAuth = user
-    })
-    if (message.senderId === userAuth?.id){
+    if (message.senderId === this.user?.id){
+      return false;
+    }
+    else if(message.senderId !== this.user?.id){
       return true;
     }
-    else if(message.senderId !== userAuth?.id){
+    else {
       return false;
     }
   }
