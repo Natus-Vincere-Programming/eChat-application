@@ -38,7 +38,16 @@
 
 }
 
+.contact_title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .subtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 12px;
   color: grey;
 }
@@ -55,8 +64,15 @@ mat-action-list {
   width: 100%;
 }
 
-
-\\
+.notification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 35px;
+  min-width: 35px;
+  border-radius: 100%;
+}
 
 .component-list {
   width: 100%;
@@ -64,20 +80,6 @@ mat-action-list {
   overflow-y: auto;
 }
 
-/* Custom scrollbar styles for WebKit browsers */
 .component-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.component-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.component-list::-webkit-scrollbar-thumb {
-  background: #888;
-  //border-radius: 10px;
-}
-
-.component-list::-webkit-scrollbar-thumb:hover {
-  background: #747474;
+  display: none;
 }
