@@ -7,7 +7,7 @@ import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {merge, pipe, take} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MatIcon} from "@angular/material/icon";
-import {NgIf} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import {ErrorMessageHandler} from "../../utility/error-message.handler";
 import {Router, RouterLink} from "@angular/router";
 import {UserService} from "../../services/user/user.service";
@@ -31,7 +31,8 @@ import {AuthenticationService} from "../../services/authentication/authenticatio
     MatIcon,
     NgIf,
     MatError,
-    RouterLink
+    RouterLink,
+    NgOptimizedImage
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'

@@ -27,7 +27,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
-              "src/mindglow_icon_logo.ico",
+              "src/echat_logo.ico",
               "src/assets/mindglow_logo.svg"
             ],
             "styles": [

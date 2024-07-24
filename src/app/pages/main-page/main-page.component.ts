@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, viewChild} from '@angular/core';
 import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatFabButton, MatIconButton} from "@angular/material/button";
@@ -20,6 +20,9 @@ import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.co
 import {MessageResponse} from "../../services/message/response/message.response";
 import {ContactService} from "../../services/contact/contact.service";
 import {ContactResponse} from "../../services/contact/response/contact.response";
+import {ChatService} from "../../services/chat/chat.service";
+import {ChatResponse} from "../../services/chat/response/chat.response";
+import {ChatInformation} from "../../services/chat/chat.information";
 
 @Component({
   selector: 'app-main-page',
@@ -53,36 +56,31 @@ import {ContactResponse} from "../../services/contact/response/contact.response"
 })
 export class MainPageComponent implements OnInit{
   readonly dialog = inject(MatDialog);
-  messageInfo : MessageResponse[] = []
-  chatInfo : ContactResponse[] = []
+  messageInfo : ChatInformation[] = []
+  chatInfo : ChatResponse[] = []
 
   constructor(
     private userService: UserService,
     private messageService: MessageService,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private chatService: ChatService,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
   ngOnInit(): void {
-    this.contactService.getContacts().then(chats => {
+    this.chatService.getAllChats().then(chats => {
       if (chats === null) return;
       this.chatInfo = chats;
       for (const chat of chats) {
-        this.messageService.getLastMessage(chat.id).then(mess => {
-          if (mess) {
-            this.messageInfo.push(mess);
-          }
+        this.chatService.getInformation(chat.chatId).then(info => {
+          this.messageInfo.push(info);
+          this.cdr.detectChanges(); // Додаємо цей виклик для оновлення
         });
       }
-      this.messageInfo.sort((a, b) => b.createdAt - a.createdAt);
+      this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     });
   }
-
-
-
-
-
-
 
   getFormattedDate(createdAt: Date): string {
     const currentDate = new Date();
@@ -93,7 +91,7 @@ export class MainPageComponent implements OnInit{
       createdAtDate.getMonth() === currentDate.getMonth() &&
       createdAtDate.getFullYear() === currentDate.getFullYear()
     ) {
-      return 'HH:mm';
+      return `${createdAtDate.getHours()}:${createdAtDate.getMinutes()}`;
     }
 
     const yesterday = new Date(currentDate);
@@ -104,10 +102,10 @@ export class MainPageComponent implements OnInit{
       createdAtDate.getMonth() === yesterday.getMonth() &&
       createdAtDate.getFullYear() === yesterday.getFullYear()
     ) {
-      return 'dd:MM:YY';
+      return 'Вчора';
     }
 
-    return 'dd:MM:YY';
+    return `${createdAtDate.getFullYear()}`;
   }
 
   openLogOutDialog(){
@@ -137,7 +135,6 @@ export class MainPageComponent implements OnInit{
       exitAnimationDuration: '100ms'
     })
   }
-
 }
 
 export interface ChatInfoHandler{

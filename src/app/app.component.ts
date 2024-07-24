@@ -40,8 +40,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.iconRegistry.setDefaultFontSetClass('material-symbols-rounded');
-    this.redirectService.checkAuthorization().then(() => {
-      this.readyToRender = true;
+    this.jwtService.isReady.then(() => {
+      this.redirectService.checkAuthorization().then(() => {
+        this.readyToRender = true;
+      });
     });
   }
 }
