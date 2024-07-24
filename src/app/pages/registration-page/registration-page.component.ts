@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Injectable} from '@angular/core';
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {
@@ -15,7 +15,7 @@ import {
 import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {Router, RouterLink} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
-import {merge, pipe, take} from "rxjs";
+import {merge, Observable, pipe, take} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {NgIf} from "@angular/common";
 import {ErrorMessageHandler} from "../../utility/error-message.handler";
@@ -61,8 +61,11 @@ export class RegistrationPageComponent {
         "",
         [Validators.required, Validators.minLength(2)]
       ),
-      email: new FormControl("",
-        [Validators.required, Validators.email]
+      email: new FormControl("", {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: [this.emailValidator.validate.bind(this.emailValidator)],
+          updateOn: 'blur'
+        }
       ),
       password: new FormControl(
         "", [Validators.required, Validators.minLength(8)]
@@ -87,6 +90,7 @@ export class RegistrationPageComponent {
   constructor(
     private userService: UserService,
     private router: Router,
+    private emailValidator: TakenEmailValidator,
     private authenticationService: AuthenticationService
   ) {
     const nickNameControl = this.registerForm.get('nickName');
@@ -153,4 +157,23 @@ interface RegisterErrorHandlers {
   password: ErrorMessageHandler;
   nickName: ErrorMessageHandler;
   confirmPassword: ErrorMessageHandler;
+}
+
+@Injectable({providedIn: 'root'})
+export class TakenEmailValidator implements AsyncValidator {
+  constructor(private service: AuthenticationService) {
+  }
+
+  validate(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    return new Promise((resolve) => {
+      this.service.isEmailTaken(control.value).then(r => {
+        if (r) {
+          resolve({taken: true});
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
 }

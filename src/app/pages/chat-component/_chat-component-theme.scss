@@ -8,11 +8,22 @@
   .mat-toolbar {
     background-color: mat.get-theme-color($theme, surface-container-high);
   }
+  .statusOnline{
+    background-color: green;
+  }
+  .statusOffline{
+    background-color: grey;
+  }
 
 }
 
 @mixin typography($theme) {
-
+  .statusOffline{
+    font: mat.get-theme-typography($theme, body-small, font);
+  }
+  .statusOnline{
+    font: mat.get-theme-typography($theme, body-small, font);
+  }
 }
 
 @mixin theme($theme) {

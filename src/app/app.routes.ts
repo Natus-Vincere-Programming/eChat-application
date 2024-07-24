@@ -17,5 +17,9 @@ export const routes: Routes = [
   {
     path: '',
     component: MainPageComponent
+  },
+  {
+    path: 'chat',
+    component: ChatComponentComponent
   }
 ];

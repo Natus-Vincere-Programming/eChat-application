@@ -25,7 +25,7 @@
     <div class="component-list">
       <mat-action-list>
         <mat-list-item *ngFor="let message of messageInfo">
-          <div matListItemAvatar>
+          <div matListItemAvatar matBadge="⠀" matBadgeSize="large" matBadgePosition="above before" [ngClass]="{'online-badge': message.receiverStatus === 'ONLINE', 'offline-badge': message.receiverStatus === 'OFFLINE'}">
             <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
           </div>
           <div matListItemTitle class="contact_title">
@@ -41,7 +41,7 @@
         </mat-list-item>
       </mat-action-list>
       <button mat-fab class="message-button" (click)="openCreateChatDialog()">
-        <mat-icon>add_comment</mat-icon>
+        <mat-icon>add_comme nt</mat-icon>
       </button>
     </div>
   </div>
