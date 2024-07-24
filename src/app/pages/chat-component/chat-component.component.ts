@@ -48,62 +48,61 @@ interface MessageEntity {
     NgIf,
     NgForOf,
     DatePipe
-
   ],
   templateUrl: './chat-component.component.html',
-  styleUrl: './chat-component.component.scss'
+  styleUrls: ['./chat-component.component.scss']
 })
-export class ChatComponentComponent implements OnInit{
-  @ViewChild("endOfChat") endOfChat!:ElementRef;
+export class ChatComponentComponent implements OnInit {
+  @ViewChild("endOfChat") endOfChat!: ElementRef;
 
-  chatForm: FormGroup=new FormGroup({
-    inputText : new FormControl("", [])
+  chatForm: FormGroup = new FormGroup({
+    inputText: new FormControl("", [])
   });
   messages: MessageResponse[] = [];
   user?: UserResponse;
-  userReciever? : UserResponse;
-
-
-
+  userReciever?: UserResponse;
 
   constructor(
     private route: ActivatedRoute,
-    private userService : UserService,
-    private messageService : MessageService,
-    private chatService : ChatService,
+    private userService: UserService,
+    private messageService: MessageService,
+    private chatService: ChatService,
     private cdr: ChangeDetectorRef
-  ) {
-    const{inputText} = this.chatForm.controls;
-    merge(inputText.valueChanges, inputText.statusChanges, inputText.updateOn)
-      .pipe(takeUntilDestroyed())
-  }
+  ) {}
 
   ngOnInit(): void {
-      this.userService.getAuthenticated().then(user => {
+    this.userService.getAuthenticated().then(user => {
+      if (user === null) return;
+      this.user = user;
+    });
+
+    this.loadMessages();
+
+    this.chatService.getByChatId(this.getChatIdFromUrl()).then(chat => {
+      if (chat === null) return;
+      this.userService.getById(chat.receiverId).then(user => {
         if (user === null) return;
-        this.user = user
-      })
-      this.messageService.getMessages(this.getChatIdFromUrl()).then(messages => {
-        this.messages = messages;
-      })
-      this.cdr.detectChanges();
-      this.chatService.getByChatId(this.getChatIdFromUrl()).then(chat => {
-        if (chat === null) return;
-        this.userService.getById(chat.receiverId).then(user => {
-          if (user === null) return;
-          this.userReciever = user;
-        })
-      })
-      this.scrollToBottom();
+        this.userReciever = user;
+      });
+    });
+
+    this.scrollToBottom();
   }
 
-  scrollToBottom(){
-      setTimeout(()=>{
-        if(this.endOfChat){
-          this.endOfChat.nativeElement.scrollIntoView({behavior:"smooth"})
-        }
-      },10)
+  loadMessages(): void {
+    this.messageService.getMessages(this.getChatIdFromUrl()).then(messages => {
+      this.messages = messages;
+      this.cdr.detectChanges();
+      this.scrollToBottom();
+    });
+  }
 
+  scrollToBottom(): void {
+    setTimeout(() => {
+      if (this.endOfChat) {
+        this.endOfChat.nativeElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 10);
   }
 
   isTextInputNotEmpty(): boolean {
@@ -141,40 +140,38 @@ export class ChatComponentComponent implements OnInit{
     return `${createdAtDate.getFullYear()}`;
   }
 
-  sendMessage(message: string) {
+  sendMessage(message: string): void {
     if (this.isTextInputNotEmpty()) {
       const newMessage: SendMessageRequest = {
-        chatId : this.getChatIdFromUrl(),
-        text : message
+        chatId: this.getChatIdFromUrl(),
+        text: message
       };
+
       this.messageService.sendMessage(newMessage).then(message => {
         if (message === null) return;
         this.messages.push(message);
-      })
-      this.scrollToBottom();
-      this.cdr.detectChanges();
-      console.log('Повідомлення надіслано:', newMessage);
-      this.chatForm.controls['inputText'].setValue('');
+        this.cdr.detectChanges(); // Manually trigger change detection
+        this.scrollToBottom();
+        console.log('Повідомлення надіслано:', newMessage);
+        this.chatForm.controls['inputText'].setValue('');
+      });
     }
   }
-  onEnter() {
-    if(this.isTextInputNotEmpty()){
+
+  onEnter(): void {
+    if (this.isTextInputNotEmpty()) {
       this.sendMessage(this.chatForm.get('inputText')?.value);
     }
   }
 
-  ifMyMessage(message : MessageResponse){
-    if (message.senderId === this.user?.id){
-      return false;
-    }
-    else if(message.senderId !== this.user?.id){
+  ifMyMessage(message: MessageResponse): boolean {
+    if (message.senderId === this.userReciever?.id){
       return true;
     }
-    else {
+    else{
       return false;
     }
   }
 
   protected readonly Date = Date;
 }
-
