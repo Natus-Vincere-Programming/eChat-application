@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, ElementRef, input, OnInit, ViewChild} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatToolbar} from "@angular/material/toolbar";
@@ -18,6 +18,7 @@ import {MessageResponse} from "../../services/message/response/message.response"
 import {SendMessageRequest} from "../../services/message/request/send-message.request";
 import {UserResponse} from "../../services/user/response/user.response";
 import {resolveObjectURL} from "node:buffer";
+import {ChatResponse} from "../../services/chat/response/chat.response";
 
 
 interface MessageEntity {
@@ -60,6 +61,7 @@ export class ChatComponentComponent implements OnInit{
   });
   messages: MessageResponse[] = [];
   user?: UserResponse;
+  userReciever? : UserResponse;
 
 
 
@@ -68,17 +70,12 @@ export class ChatComponentComponent implements OnInit{
     private route: ActivatedRoute,
     private userService : UserService,
     private messageService : MessageService,
-    private chatService : ChatService
+    private chatService : ChatService,
+    private cdr: ChangeDetectorRef
   ) {
     const{inputText} = this.chatForm.controls;
     merge(inputText.valueChanges, inputText.statusChanges, inputText.updateOn)
       .pipe(takeUntilDestroyed())
-
-    this.messageService.getMessages(this.getChatIdFromUrl()).then(messages => {
-      this.messages = messages;
-    })
-
-    this.scrollToBottom();
   }
 
   ngOnInit(): void {
@@ -86,7 +83,19 @@ export class ChatComponentComponent implements OnInit{
         if (user === null) return;
         this.user = user
       })
-    }
+      this.messageService.getMessages(this.getChatIdFromUrl()).then(messages => {
+        this.messages = messages;
+      })
+      this.cdr.detectChanges();
+      this.chatService.getByChatId(this.getChatIdFromUrl()).then(chat => {
+        if (chat === null) return;
+        this.userService.getById(chat.receiverId).then(user => {
+          if (user === null) return;
+          this.userReciever = user;
+        })
+      })
+      this.scrollToBottom();
+  }
 
   scrollToBottom(){
       setTimeout(()=>{
@@ -106,6 +115,32 @@ export class ChatComponentComponent implements OnInit{
     return this.route.snapshot.params['id'];
   }
 
+  getFormattedDate(createdAtMillis: number): string {
+    const currentDate = new Date();
+    const createdAtDate = new Date(createdAtMillis);
+
+    if (
+      createdAtDate.getDate() === currentDate.getDate() &&
+      createdAtDate.getMonth() === currentDate.getMonth() &&
+      createdAtDate.getFullYear() === currentDate.getFullYear()
+    ) {
+      return `${createdAtDate.getHours()}:${createdAtDate.getMinutes()}`;
+    }
+
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(currentDate.getDate() - 1);
+
+    if (
+      createdAtDate.getDate() === yesterday.getDate() &&
+      createdAtDate.getMonth() === yesterday.getMonth() &&
+      createdAtDate.getFullYear() === yesterday.getFullYear()
+    ) {
+      return 'Вчора';
+    }
+
+    return `${createdAtDate.getFullYear()}`;
+  }
+
   sendMessage(message: string) {
     if (this.isTextInputNotEmpty()) {
       const newMessage: SendMessageRequest = {
@@ -117,6 +152,7 @@ export class ChatComponentComponent implements OnInit{
         this.messages.push(message);
       })
       this.scrollToBottom();
+      this.cdr.detectChanges();
       console.log('Повідомлення надіслано:', newMessage);
       this.chatForm.controls['inputText'].setValue('');
     }
@@ -138,5 +174,7 @@ export class ChatComponentComponent implements OnInit{
       return false;
     }
   }
+
+  protected readonly Date = Date;
 }
 

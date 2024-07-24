@@ -27,7 +27,7 @@
         <mat-list-item *ngFor="let message of filteredMessages" [routerLink]="'/' + message.chatId">
           <div matListItemAvatar matBadge="⠀" matBadgeSize="large" matBadgePosition="above before"
                [ngClass]="{'online-badge': message.receiverStatus === 'ONLINE', 'offline-badge': message.receiverStatus === 'OFFLINE'}">
-            <div class="avatar-initials" [style.background-color]="getRandomColor()">
+            <div class="avatar-initials" [style.background-color]="color">
               {{ getInitials(message.receiverName) }}
             </div>
           </div>

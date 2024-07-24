@@ -24,7 +24,7 @@
 .component-list {
   width: 100%;
   height: calc(100% - 62px);
-  overflow-y: auto;
+  overflow: hidden;
   position: relative;
 }
 

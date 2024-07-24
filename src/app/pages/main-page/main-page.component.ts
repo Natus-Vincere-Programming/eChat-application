@@ -60,7 +60,7 @@ import {RouterLink} from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainPageComponent implements OnInit {
-  colors: string[] = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A1'];
+  color: string =  '#33FF57';
   readonly dialog = inject(MatDialog);
   filteredMessages : ChatInformation[] = [];
   searchTerm: string = '';
@@ -201,10 +201,7 @@ export class MainPageComponent implements OnInit {
     return initials.toUpperCase();
   }
 
-  getRandomColor(): string {
-    const randomIndex = Math.floor(Math.random() * this.colors.length);
-    return this.colors[randomIndex];
-  }
+
 
 
 
