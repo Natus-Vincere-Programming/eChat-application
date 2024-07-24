@@ -15,10 +15,6 @@ export const routes: Routes = [
     component: RegistrationPageComponent
   },
   {
-    path: 'chat',
-    component: ChatComponentComponent
-  },
-  {
     path: '',
     component: MainPageComponent
   }

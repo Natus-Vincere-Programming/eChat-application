@@ -27,19 +27,18 @@
   width: 100%;
   height: calc(100% - 62px);
   overflow-y: auto;
+  position: relative;
 }
 
 .avatar-icon {
-
   border-radius: 50%;
   width: 50px;
   height: 50px;
   display: block;
   margin: auto 10px auto auto;
-
 }
 
-.contact_title{
+.contact_title {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,6 +73,22 @@ mat-action-list {
   height: 20px;
   min-width: 20px;
   border-radius: 10px;
+}
+
+.message-button {
+  position: absolute;
+  bottom: -100px;
+  right: 20px;
+
+  transition: bottom 0.3s ease-in-out;
+}
+
+
+
+
+.component-list:hover .message-button {
+  bottom: 20px;
+
 }
 
 .component-list {

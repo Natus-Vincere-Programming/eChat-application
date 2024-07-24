@@ -20,9 +20,10 @@
       </mat-menu>
       <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Пошук</mat-label>
-        <input  matInput type="text" >
-        <mat-icon matPrefix class="search-icon" >search</mat-icon>
-
+        <input matInput type="text">
+        <button type="button" mat-icon-button matPrefix>
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-form-field>
     </form>
     <div class="component-list">
@@ -41,11 +42,11 @@
               <strong>99</strong>
             </div>
           </div>
-
         </mat-list-item>
-
       </mat-action-list>
-
+      <button mat-fab class="message-button" (click)="openCreateChatDialog()">
+        <mat-icon>add_comment</mat-icon>
+      </button>
     </div>
   </div>
 </div>
