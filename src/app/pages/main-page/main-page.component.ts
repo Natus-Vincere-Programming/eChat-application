@@ -4,9 +4,11 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
+import {NgForOf, NgIf} from "@angular/common";
 import {DatePipe, NgForOf, NgOptimizedImage} from "@angular/common";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatDialog} from "@angular/material/dialog";
+import {MatDivider} from "@angular/material/divider";
 import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
 import {MatBadge} from "@angular/material/badge";
 import {LogoutDialogComponent} from "./dialogs/logout-dialog/logout-dialog.component";
@@ -36,6 +38,8 @@ import {ChatAndContactService} from "../../services/contact/chat-and-contact.ser
     MatPrefix,
     MatActionList,
     MatButton,
+    MatDivider,
+    NgIf
     NgOptimizedImage,
     MatBadge,
     DatePipe
