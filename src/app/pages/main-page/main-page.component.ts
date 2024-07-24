@@ -23,6 +23,7 @@ import {ContactResponse} from "../../services/contact/response/contact.response"
 import {ChatService} from "../../services/chat/chat.service";
 import {ChatResponse} from "../../services/chat/response/chat.response";
 import {ChatInformation} from "../../services/chat/chat.information";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-main-page',
@@ -48,7 +49,8 @@ import {ChatInformation} from "../../services/chat/chat.information";
     NgOptimizedImage,
     MatBadge,
     DatePipe,
-    MatFabButton
+    MatFabButton,
+    RouterOutlet
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
