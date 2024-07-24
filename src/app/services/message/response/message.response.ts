@@ -4,5 +4,5 @@ export interface MessageResponse {
   senderId: string;
   message: string;
   status: 'SENT' | 'DELIVERED' | 'READ';
-  date: string;
+  createdAt: number;
 }
