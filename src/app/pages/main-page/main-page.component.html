@@ -1,7 +1,7 @@
 <div class="main-page">
   <div class="side-bar-container">
     <form class="top-bar-container">
-      <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
+      <button class="menu" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -11,15 +11,18 @@
         </button>
         <button mat-menu-item (click)="openLogOutDialog()">
           <mat-icon>logout</mat-icon>
-          <span>Log Out</span>
+          <span>Вихід</span>
+        </button>
+        <button mat-menu-item (click)="openSettingsDialog()">
+          <mat-icon>settings</mat-icon>
+          <span>Налаштування</span>
         </button>
       </mat-menu>
-      <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+      <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Пошук</mat-label>
-        <input matInput type="text">
-        <button type="button" mat-icon-button matPrefix>
-                <mat-icon>search</mat-icon>
-        </button>
+        <input  matInput type="text" >
+        <mat-icon matPrefix class="search-icon" >search</mat-icon>
+
       </mat-form-field>
     </form>
     <div class="component-list">
