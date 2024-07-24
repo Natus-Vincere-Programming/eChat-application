@@ -27,16 +27,16 @@
     </form>
     <div class="component-list">
       <mat-action-list>
-        <mat-list-item *ngFor="let item of items">
+        <mat-list-item *ngFor="let message of messageInfo">
           <div matListItemAvatar>
             <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
           </div>
           <div matListItemTitle class="contact_title">
-            <div>Назар</div>
-            <div class="timer_title">19:20</div>
+            <div>{{message.senderId}}</div>
+            <div class="timer_title">{{message.createdAt | date: getFormattedDate(message.createdAt)}}</div>
           </div>
           <div matListItemLine class="subtitle">
-            Ви: я гей
+            {{message.message}}
             <div class="notification-container">
               <strong>99</strong>
             </div>
