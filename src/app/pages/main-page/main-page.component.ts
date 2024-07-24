@@ -206,12 +206,7 @@ export class MainPageComponent implements OnInit {
     return this.colors[randomIndex];
   }
 
-  filterMessages(): void {
-    const searchValue = this.searchForm.get('search')?.value.toLowerCase();
-    this.filteredMessages = this.messageInfo.filter(message =>
-      message.receiverName.toLowerCase().includes(searchValue)
-    );
-  }
+  
 
 
   protected readonly onkeydown = onkeydown;
