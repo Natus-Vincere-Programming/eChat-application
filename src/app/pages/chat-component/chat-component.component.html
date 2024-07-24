@@ -1,0 +1,39 @@
+<div class="main-page">
+  <div>
+    <mat-toolbar>
+      <button mat-icon-button class="icon" aria-label="">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>Назар Коробчук</span>
+    </mat-toolbar>
+  </div>
+
+
+  <div class="chat">
+    <div class="container">
+      <app-message
+        *ngFor="let message of messages"
+        [text]="message.text"
+        [time]="message.date"
+        [stat]="message.readStatus"
+        [myMess]="message.userId === 1">
+      </app-message>
+
+    </div>
+    <div #endOfChat></div>
+  </div>
+  <form class="input-container" [formGroup]="chatForm">
+    <mat-form-field class="input-field" appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+      <input placeholder="Текст"  matInput type="text" formControlName="inputText" (keydown.enter)="onEnter()">
+      <button mat-icon-button matPrefix class="emoji-icon">
+        <mat-icon>sentiment_very_satisfied</mat-icon>
+      </button>
+
+      <button mat-icon-button matSuffix type="submit" *ngIf="isTextInputNotEmpty()" (click)="onEnter() " class="send-icon">
+        <mat-icon>send</mat-icon>
+      </button>
+
+    </mat-form-field>
+  </form>
+</div>
+

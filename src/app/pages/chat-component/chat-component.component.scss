@@ -1,0 +1,99 @@
+.main-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+
+}
+.icon{
+  margin-right: 10px;
+}
+.emoji-icon{
+  margin-left:  5px;
+}
+.send-icon{
+  margin-right: 5px;
+}
+
+
+.input-container {
+
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  //padding: 10px;
+  margin: 10px;
+  //background-color: rgba(0, 0, 0, 0.85);
+  position: fixed;
+  bottom: 0;
+  //width: 100%;
+  gap: 10px;
+  width: auto
+;
+  //margin: auto 0;
+  align-self: center;
+}
+
+.input-field {
+  display: flex;
+  //background-color: #1f1f27;
+  width: 560px;
+}
+
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  //padding: 10px;
+  //margin-bottom: 70px;
+  bottom: 0;
+  padding: 10px 10px 70px 10px;
+
+  scroll-behavior:  smooth;
+  scroll-padding-top: 40px;
+
+}
+
+.container {
+  //display: none;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: auto;
+  max-width: 800px;
+}
+
+.app-message {
+  display: block;
+}
+
+.app-message[myMess="true"] {
+
+  padding: 5px;
+  //border-radius: 5px 5px 0 0;
+
+
+}
+
+.app-message[myMess="false"] {
+
+  padding: 5px;
+  border-radius: 16px 16px 0 16px;
+  //border-radius: 5px;
+}
+
+.chat::-webkit-scrollbar {
+  width: 10px;
+}
+
+.chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.chat:hover::-webkit-scrollbar-thumb {
+  background: #555;
+}

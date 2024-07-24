@@ -4,11 +4,8 @@
 @use 'app/pages/registration-page/registration-page-theme.scss' as registration-page;
 @use 'app/message/_message-theme.scss' as message-theme;
 @use 'app/pages/email-verification-page/_email-verification-theme.scss' as email-verification-theme;
-// Plus imports for other components in your app.
+@use 'app/pages/chat-component/chat-component-theme.scss' as chat-component;
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
 $application-theme: mat.define-theme((
@@ -21,16 +18,15 @@ $application-theme: mat.define-theme((
     scale: 0,
   )
 ));
-
-
 :root {
   @include mat.all-component-themes($application-theme);
   @include mat.all-component-typographies($application-theme);
   @include main-page-theme.theme($application-theme);
   @include login-page.theme($application-theme);
   @include registration-page.theme($application-theme);
-  @include message-theme.typography-massage($application-theme);
+  @include message-theme.theme($application-theme);
   @include email-verification-theme.typography-verification($application-theme);
+  @include chat-component.theme($application-theme);
 }
 
 @include mat.typography-hierarchy($application-theme);
