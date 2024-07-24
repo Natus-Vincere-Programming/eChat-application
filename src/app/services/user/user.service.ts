@@ -37,12 +37,19 @@ export class UserService {
    * неправильні
    * @param request
    */
+  registerNewUser(request: RegisterUserRequest): Promise<RegisterUserResponse | null> {
+    return new Promise<RegisterUserResponse | null>((resolve) => {
+      this.http.post<RegisterUserResponse>(this.url + '/register', request).subscribe({
+        next: (response: RegisterUserResponse) => {
+          resolve(response);
+
   loginUser(request: LoginUserRequest): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       this.http.post<User>(this.url + '/api/v1/auth/authenticate', request).subscribe({
         next: (user: User) => {
           this.user = user;
           resolve(true);
+
         },
         error: (err) => {
           console.log(err);

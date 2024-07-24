@@ -10,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
 import {MatBadge} from "@angular/material/badge";
 import {LogoutDialogComponent} from "./dialogs/logout-dialog/logout-dialog.component";
+import {SettingsDialogComponent} from "./dialogs/settings-dialog/settings-dialog.component";
 import {UserService} from "../../services/user/user.service";
 import {User} from "../../services/user/user.entity";
 import {ChatService} from "../../services/chat.service";
@@ -118,6 +119,22 @@ export class MainPageComponent implements OnInit{
       exitAnimationDuration: '100ms'
     })
   }
+
+  openSettingsDialog() {
+    const dialogRef = this.dialog.open(SettingsDialogComponent, {
+      width: '312px',
+      height: '282px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '100ms'
+    })
+  }
+}
+
+export interface ChatInfoHandler{
+  username: string,
+  lastmessage: string,
+  lastmessagetime : string,
+
 }
 
 interface Chat{
