@@ -24,21 +24,20 @@
 
 .component-list {
   width: 100%;
-  height: calc(100% - 62px); /* Adjust height to fit within the container */
+  height: calc(100% - 62px);
   overflow-y: auto;
+  position: relative;
 }
 
 .avatar-icon {
-
   border-radius: 50%;
   width: 50px;
   height: 50px;
   display: block;
   margin: auto 10px auto auto;
-
 }
 
-.contact_title{
+.contact_title {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,7 +56,7 @@ mat-list-item {
   border-radius: 16px;
   min-height: 70px;
   display: flex;
-  align-items: center; /* Center items vertically */
+  align-items: center;
 }
 
 mat-action-list {
@@ -72,6 +71,22 @@ mat-action-list {
   height: 35px;
   min-width: 35px;
   border-radius: 100%;
+}
+
+.message-button {
+  position: absolute;
+  bottom: -100px;
+  right: 20px;
+
+  transition: bottom 0.3s ease-in-out;
+}
+
+
+
+
+.component-list:hover .message-button {
+  bottom: 20px;
+
 }
 
 .component-list {

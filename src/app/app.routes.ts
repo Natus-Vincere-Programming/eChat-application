@@ -13,7 +13,7 @@ export const routes: Routes = [
     component: RegistrationPageComponent
   },
   {
-    path: '',
+    path: 'main',
     component: MainPageComponent
   }
 ];

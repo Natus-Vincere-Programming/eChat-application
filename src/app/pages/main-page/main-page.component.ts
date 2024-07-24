@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, viewChild} from '@angular/core';
 import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatButton, MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {MatActionList, MatList, MatListItem} from "@angular/material/list";
 import {DatePipe, NgForOf, NgOptimizedImage} from "@angular/common";
@@ -15,6 +15,7 @@ import {User} from "../../services/user/user.entity";
 import {ChatService} from "../../services/chat.service";
 import {MessageService} from "../../services/message/message.service";
 import {ChatAndContactService} from "../../services/contact/chat-and-contact.service";
+import {CreateChatDialogComponent} from "./dialogs/create-chat-dialog/create-chat-dialog.component";
 
 @Component({
   selector: 'app-main-page',
@@ -37,7 +38,8 @@ import {ChatAndContactService} from "../../services/contact/chat-and-contact.ser
     MatButton,
     NgOptimizedImage,
     MatBadge,
-    DatePipe
+    DatePipe,
+    MatFabButton
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
@@ -56,17 +58,17 @@ export class MainPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.contactService.getAllChats().then(chats => {
-      this.chatInfo = chats;
-      for (const chat of chats){
-        this.messageService.getLastMessageInfo(chat.chatId).then(mess => {
-          if (mess) {
-            this.messageInfo.push(mess);
-          }
-        })
-      }
-      this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    })
+    // this.contactService.getAllChats().then(chats => {
+    //   this.chatInfo = chats;
+    //   for (const chat of chats){
+    //     this.messageService.getLastMessageInfo(chat.chatId).then(mess => {
+    //       if (mess) {
+    //         this.messageInfo.push(mess);
+    //       }
+    //     })
+    //   }
+    //   this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    // })
   }
 
 
@@ -114,6 +116,16 @@ export class MainPageComponent implements OnInit{
     const dialogRef = this.dialog.open(ContactDialogComponent, {
       width: '560px',
       height: '500px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '100ms'
+    })
+  }
+
+  openCreateChatDialog() {
+
+    const dialogRef = this.dialog.open(CreateChatDialogComponent, {
+      width: '400px',
+      height: '300px',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '100ms'
     })
