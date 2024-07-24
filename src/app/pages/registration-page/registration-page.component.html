@@ -6,24 +6,24 @@
     <form class="field-box" [formGroup]="registerForm" (submit)="onSubmit()">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Нікнейм</mat-label>
-        <input matInput type="text" formControlName="nickName">
-        @if(registerForm.get("nickName")?.invalid) {
-          <mat-error>{{errorHandlers.nickName.getErrorMessage()}}</mat-error>
+        <input matInput type="text" formControlName="nickname">
+        @if(registerForm.get("nickname")?.invalid) {
+          <mat-error>{{errorHandlers.nickname.getErrorMessage()}}</mat-error>
         }
       </mat-form-field>
       <div class="same-information-box">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
           <mat-label>Ім'я</mat-label>
-          <input matInput type="text" formControlName="name" required>
-          @if(registerForm.get("name")?.invalid) {
-            <mat-error>{{errorHandlers.firstName.getErrorMessage()}}</mat-error>
+          <input matInput type="text" formControlName="firstname" required>
+          @if(registerForm.get("firstname")?.invalid) {
+            <mat-error>{{errorHandlers.firstname.getErrorMessage()}}</mat-error>
           }
         </mat-form-field>
         <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
           <mat-label>Прізвище</mat-label>
-          <input matInput type="text" formControlName="surName" required>
-          @if(registerForm.get("surName")?.invalid) {
-            <mat-error>{{errorHandlers.surName.getErrorMessage()}}</mat-error>
+          <input matInput type="text" formControlName="lastname" required>
+          @if(registerForm.get("lastname")?.invalid) {
+            <mat-error>{{errorHandlers.lastname.getErrorMessage()}}</mat-error>
           }
         </mat-form-field>
       </div>
@@ -47,7 +47,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
           <mat-label>Повторити пароль</mat-label>
-          <input matInput type="password" [type] = "hidePassword ? 'password' : 'text'" formControlName="confirmPassword" required>
+          <input matInput type="password" formControlName="confirmPassword" required>
           @if(registerForm.get("confirmPassword")?.invalid) {
             <mat-error>{{errorHandlers.confirmPassword.getErrorMessage()}}</mat-error>
           }
