@@ -1,5 +1,4 @@
-
 export interface ContactResponse {
-  id : string,
-  contactId : string
+  id: string // просто айдішка (можливо буде треба при циклі for)
+  contactId: string // айдішка контакта
 }

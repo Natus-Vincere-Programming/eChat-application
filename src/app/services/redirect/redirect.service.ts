@@ -15,14 +15,16 @@ export class RedirectService {
 
   checkAuthorization(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      const user = this.userService.getCurrentUser();
-      if (!user) {
-        this.router.navigate(['login']).then(() => {
-          console.debug('User is not authorized. Redirect to login page (redirect service)');
-          resolve(true);
-        })
-        return;
-      }
+      this.userService.getAuthenticated().then(user => {
+        if (user == null) {
+          this.router.navigate(['login']).then(() => {
+            console.debug('User is not authorized. Redirect to login page (redirect service)');
+            resolve(true);
+          })
+          return;
+        }
+        resolve(false);
+      });
     });
   }
 
