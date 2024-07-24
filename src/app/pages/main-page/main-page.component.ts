@@ -17,6 +17,9 @@ import {User} from "../../services/user/user.entity";
 import {MessageService} from "../../services/message/message.service";
 import {CreateChatDialogComponent} from "./dialogs/create-chat-dialog/create-chat-dialog.component";
 import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.component";
+import {MessageResponse} from "../../services/message/response/message.response";
+import {ContactService} from "../../services/contact/contact.service";
+import {ContactResponse} from "../../services/contact/response/contact.response";
 
 @Component({
   selector: 'app-main-page',
@@ -50,27 +53,29 @@ import {ContactDialogComponent} from "./dialogs/contact-dialog/contact-dialog.co
 })
 export class MainPageComponent implements OnInit{
   readonly dialog = inject(MatDialog);
-  messageInfo : LastMessage[] = []
-  chatInfo : Chat[] = []
+  messageInfo : MessageResponse[] = []
+  chatInfo : ContactResponse[] = []
 
   constructor(
     private userService: UserService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private contactService: ContactService
   ) {
   }
 
   ngOnInit(): void {
-    // this.contactService.getAllChats().then(chats => {
-    //   this.chatInfo = chats;
-    //   for (const chat of chats){
-    //     this.messageService.getLastMessageInfo(chat.chatId).then(mess => {
-    //       if (mess) {
-    //         this.messageInfo.push(mess);
-    //       }
-    //     })
-    //   }
-    //   this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    // })
+    this.contactService.getContacts().then(chats => {
+      if (chats === null) return;
+      this.chatInfo = chats;
+      for (const chat of chats) {
+        this.messageService.getLastMessage(chat.id).then(mess => {
+          if (mess) {
+            this.messageInfo.push(mess);
+          }
+        });
+      }
+      this.messageInfo.sort((a, b) => b.createdAt - a.createdAt);
+    });
   }
 
 

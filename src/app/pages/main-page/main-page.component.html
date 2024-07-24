@@ -13,10 +13,6 @@
           <mat-icon>logout</mat-icon>
           <span>Вихід</span>
         </button>
-        <button mat-menu-item (click)="openSettingsDialog()">
-          <mat-icon>settings</mat-icon>
-          <span>Налаштування</span>
-        </button>
       </mat-menu>
       <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
         <mat-label>Пошук</mat-label>
@@ -34,7 +30,7 @@
           </div>
           <div matListItemTitle class="contact_title">
             <div>{{message.senderId}}</div>
-            <div class="timer_title">{{message.createdAt | date: getFormattedDate(message.createdAt)}}</div>
+            <div class="timer_title">{{message.createdAt}}</div>
           </div>
           <div matListItemLine class="subtitle">
             {{message.message}}
