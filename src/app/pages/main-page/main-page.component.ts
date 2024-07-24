@@ -24,6 +24,9 @@ import {ChatService} from "../../services/chat/chat.service";
 import {ChatResponse} from "../../services/chat/response/chat.response";
 import {ChatInformation} from "../../services/chat/chat.information";
 import {RouterOutlet} from "@angular/router";
+import {StompClientService} from "../../services/stomp-client.service";
+import {CompatClient, Stomp} from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 @Component({
   selector: 'app-main-page',
@@ -66,7 +69,8 @@ export class MainPageComponent implements OnInit{
     private messageService: MessageService,
     private contactService: ContactService,
     private chatService: ChatService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private stompClient: StompClientService
   ) {
   }
 
@@ -82,6 +86,13 @@ export class MainPageComponent implements OnInit{
       }
       this.messageInfo.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     });
+     let client: CompatClient = Stomp.over(new SockJS('http://localhost:8080/ws'));
+     client.connect({}, () => {
+       client.publish({
+         destination: '/user/online'
+       })
+     })
+    /*this.startStompClient();*/
   }
 
   getFormattedDate(createdAt: Date): string {
@@ -117,6 +128,17 @@ export class MainPageComponent implements OnInit{
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '100ms',
     })
+  }
+
+  private startStompClient() {
+    this.stompClient.activateClient();
+    this.userService.getAuthenticated().then(user => {
+      if (user === null) return;
+      this.stompClient.client.publish({
+        destination: '/app/user/online',
+        body: undefined
+      });
+    });
   }
 
   openContactDialog(){

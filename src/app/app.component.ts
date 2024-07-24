@@ -12,6 +12,7 @@ import {ChatService} from "./services/chat/chat.service";
 import {RedirectService} from "./services/redirect/redirect.service";
 import {NgIf} from "@angular/common";
 import {MessageService} from "./services/message/message.service";
+import {StompClientService} from "./services/stomp-client.service";
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,8 @@ export class AppComponent implements OnInit {
     private contactService: ContactService,
     private chatService: ChatService,
     private redirectService: RedirectService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private stompService: StompClientService
   ) {
   }
 
