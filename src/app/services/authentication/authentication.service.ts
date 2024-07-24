@@ -60,6 +60,20 @@ export class AuthenticationService {
     })
   }
 
+  logout(): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.http.post(this.url + '/logout', {}).subscribe({
+        next: () => {
+          resolve();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.trace(error);
+          resolve();
+        }
+      });
+    });
+  }
+
   isEmailTaken(email: string): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       this.http.get<boolean>(this.url + "/email?email=" + email).subscribe({

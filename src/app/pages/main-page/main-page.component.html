@@ -1,48 +1,51 @@
-<div class="main-page">
-  <div class="side-bar-container">
-    <form class="top-bar-container">
-      <button class="menu" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openContactDialog()">
-          <mat-icon>person_add</mat-icon>
-          <span>Контакти</span>
+<div style="display: flex; height: 100%; width: 100%">
+  <div class="main-page">
+    <div class="side-bar-container">
+      <form class="top-bar-container">
+        <button class="menu" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()">
+          <mat-icon>menu</mat-icon>
         </button>
-        <button mat-menu-item (click)="openLogOutDialog()">
-          <mat-icon>logout</mat-icon>
-          <span>Вихід</span>
-        </button>
-      </mat-menu>
-      <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
-        <mat-label>Пошук</mat-label>
-        <input matInput type="text">
-        <button type="button" mat-icon-button matPrefix>
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
-    </form>
-    <div class="component-list">
-      <mat-action-list>
-        <mat-list-item *ngFor="let message of messageInfo">
-          <div matListItemAvatar>
-            <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
-          </div>
-          <div matListItemTitle class="contact_title">
-            <div>{{message.receiverName}}</div>
-            <div class="timer_title">{{this.getFormattedDate(message.createdAt)}}</div>
-          </div>
-          <div matListItemLine class="subtitle">
-            {{message.lastMessage}}
-            <div class="notification-container" *ngIf="message.amountOfUnreadMessages !== 0">
-              <strong>{{ message.amountOfUnreadMessages }}</strong>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="openContactDialog()">
+            <mat-icon>person_add</mat-icon>
+            <span>Контакти</span>
+          </button>
+          <button mat-menu-item (click)="openLogOutDialog()">
+            <mat-icon>logout</mat-icon>
+            <span>Вийти з акаунта</span>
+          </button>
+        </mat-menu>
+        <mat-form-field class="search-field"  appearance="outline" subscriptSizing="dynamic" hideRequiredMarker="true">
+          <mat-label>Пошук</mat-label>
+          <input matInput type="text">
+          <button type="button" mat-icon-button matPrefix>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+      <div class="component-list">
+        <mat-action-list>
+          <mat-list-item *ngFor="let message of messageInfo">
+            <div matListItemAvatar>
+              <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
             </div>
-          </div>
-        </mat-list-item>
-      </mat-action-list>
-      <button mat-fab class="message-button" (click)="openCreateChatDialog()">
-        <mat-icon>add_comment</mat-icon>
-      </button>
+            <div matListItemTitle class="contact_title">
+              <div>{{message.receiverName}}</div>
+              <div class="timer_title">{{this.getFormattedDate(message.createdAt)}}</div>
+            </div>
+            <div matListItemLine class="subtitle">
+              {{message.lastMessage}}
+              <div class="notification-container">
+                <strong>99</strong>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-action-list>
+        <button mat-fab class="message-button" (click)="openCreateChatDialog()">
+          <mat-icon>add_comment</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
+  <router-outlet></router-outlet>
 </div>
