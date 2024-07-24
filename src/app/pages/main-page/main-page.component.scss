@@ -6,6 +6,7 @@
 }
 
 .side-bar-container {
+  user-select: none;
   display: flex;
   align-items: center;
   flex-direction: column;

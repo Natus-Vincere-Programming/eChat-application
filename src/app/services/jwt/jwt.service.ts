@@ -6,7 +6,6 @@ import {afterNextRender, afterRender, Injectable, signal, WritableSignal} from '
 export class JwtService {
   accessToken: WritableSignal<string> = signal("");
   isReady: Promise<void>;
-
   constructor() {
     this.isReady = new Promise<void>(resolve => {
       afterNextRender(() => {
