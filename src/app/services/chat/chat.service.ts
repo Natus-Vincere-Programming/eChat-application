@@ -1,50 +1,78 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import SockJS from "sockjs-client";
-import {Client, Stomp} from "@stomp/stompjs";
-import {Chat} from "./chat.entity";
-import {StompClientService} from "../stomp-client.service";
-import {UserService} from "../user/user.service";
+import {CreateChatRequest} from "./request/create-chat.request";
+import {ChatResponse} from "./response/chat.response";
+import {CreateChatResponse} from "./response/create-chat.response";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  url: string = "http://localhost:8080/chats";
-  chats: Chat[] = [];
-  client: Client;
+  url: string = "http://localhost:8080/api/v1/chats";
 
   constructor(
     private http: HttpClient,
-    private stompClient: StompClientService,
-    private userService: UserService
   ) {
-    this.client = stompClient.client;
   }
 
-
-  async addChats(): Promise<void> {
-    this.http.get<Chat[]>(this.url).subscribe({
-      next: (response: Chat[]) => {
-        this.chats = response;
-      },
-      error: (err) => {
-        console.log(err);
-      }
+  createChat(request: CreateChatRequest): Promise<CreateChatResponse | null> {
+    return new Promise<CreateChatResponse | null>((resolve) => {
+      this.http.post<CreateChatResponse>(this.url, request).subscribe({
+        next: (chat: CreateChatResponse) => {
+          console.trace(chat);
+          resolve(chat);
+        },
+        error: (err) => {
+          console.trace(err);
+          resolve(null);
+        }
+      });
     });
   }
 
-  activateChatUpdate() {
-    let currentUser = this.userService.getCurrentUser();
-    if (currentUser){
-      this.client.subscribe('/user/' + currentUser.id + '/queue/chats', chat => {
-        this.addChat(JSON.parse(chat.body));
+  getByChatId(id: string): Promise<ChatResponse | null> {
+    return new Promise<ChatResponse | null>((resolve) => {
+      this.http.get<ChatResponse>(this.url + "/" + id).subscribe({
+        next: (chat: ChatResponse) => {
+          console.trace(chat);
+          resolve(chat);
+        },
+        error: (err) => {
+          console.trace(err);
+          resolve(null);
+        }
       });
-    } else console.log('User is not logged in and cannot activate chat update');
+    });
   }
 
-  private addChat(chat: Chat) {
-    this.chats.push(chat);
+  getAllChats(): Promise<ChatResponse[] | null> {
+    return new Promise<ChatResponse[] | null>((resolve) => {
+      this.http.get<ChatResponse[]>(this.url).subscribe({
+        next: (chats: ChatResponse[]) => {
+          console.trace(chats);
+          resolve(chats);
+        },
+        error: (err) => {
+          console.trace(err);
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  deleteChat(id: string): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      this.http.delete(this.url + "/" + id).subscribe({
+        next: () => {
+          console.debug('Chat deleted');
+          resolve(true);
+        },
+        error: (err) => {
+          console.trace(err);
+          resolve(false);
+        }
+      });
+    });
   }
 }
