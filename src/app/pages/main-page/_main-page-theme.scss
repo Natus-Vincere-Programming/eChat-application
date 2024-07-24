@@ -21,6 +21,10 @@
     color: mat.get-theme-color($theme,  outline);
   }
 
+  .mat-list-item{
+    background-color: mat.get-theme-color($theme, primary-fixed-dim);
+  }
+
   .subtitle{
     color: mat.get-theme-color($theme,  outline);
   }

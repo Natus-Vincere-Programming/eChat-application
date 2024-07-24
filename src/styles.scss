@@ -4,6 +4,7 @@
 @use 'app/pages/registration-page/registration-page-theme.scss' as registration-page;
 @use 'app/message/_message-theme.scss' as message-theme;
 @use 'app/pages/email-verification-page/_email-verification-theme.scss' as email-verification-theme;
+@use 'app/pages/main-page/dialogs/contact-dialog/contact-theme.scss' as contact-dialog;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -31,6 +32,7 @@ $application-theme: mat.define-theme((
   @include registration-page.theme($application-theme);
   @include message-theme.typography-massage($application-theme);
   @include email-verification-theme.typography-verification($application-theme);
+  @include contact-dialog.theme($application-theme);
 }
 
 @include mat.typography-hierarchy($application-theme);
