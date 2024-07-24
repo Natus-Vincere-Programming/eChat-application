@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogClose, MatDialogTitle} from "@angular/material/dialog";
+import {Component, inject, OnInit} from '@angular/core';
+import {MatDialog, MatDialogClose, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
@@ -13,6 +13,10 @@ import {UserService} from "../../../../services/user/user.service";
 import {ContactService} from "../../../../services/contact/contact.service";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {UserResponse} from "../../../../services/user/response/user.response";
+import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
+import {ContactRequest} from "../../../../services/contact/request/contact.request";
+import {merge, take} from "rxjs";
+import {ErrorMessageHandler} from "../../../../utility/error-message.handler";
 
 @Component({
   selector: 'app-contact-dialog',
@@ -38,6 +42,8 @@ import {UserResponse} from "../../../../services/user/response/user.response";
   styleUrl: './contact-dialog.component.scss'
 })
 export class ContactDialogComponent implements OnInit{
+
+  readonly dialog = inject(MatDialog);
   inputForm : FormGroup = new FormGroup(
     {
       input: new FormControl('', [])
@@ -118,7 +124,6 @@ export class ContactDialogComponent implements OnInit{
 
   ngOnInit(): void {
         this.contactService.getContacts().then(contacts => {
-          this.contacts = contacts;
           if (contacts) {
             for (let contact of contacts) {
               this.userService.getById(contact.contactId).then(user => {
