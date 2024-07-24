@@ -29,11 +29,11 @@
             <img alt="" src="assets/avatars/defaultavatar.png" class="avatar-icon">
           </div>
           <div matListItemTitle class="contact_title">
-            <div>{{message.senderId}}</div>
-            <div class="timer_title">{{message.createdAt}}</div>
+            <div>{{message.receiverName}}</div>
+            <div class="timer_title">{{this.getFormattedDate(message.createdAt)}}</div>
           </div>
           <div matListItemLine class="subtitle">
-            {{message.message}}
+            {{message.lastMessage}}
             <div class="notification-container">
               <strong>99</strong>
             </div>
