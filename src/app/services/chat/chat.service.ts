@@ -35,15 +35,6 @@ export class ChatService {
     });
   }
 
-  activateChatUpdate() {
-    let currentUser = this.userService.getCurrentUser();
-    if (currentUser){
-      this.client.subscribe('/user/' + currentUser.id + '/queue/chats', chat => {
-        this.addChat(JSON.parse(chat.body));
-      });
-    } else console.log('User is not logged in and cannot activate chat update');
-  }
-
   private addChat(chat: Chat) {
     this.chats.push(chat);
   }

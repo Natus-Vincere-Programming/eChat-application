@@ -30,8 +30,8 @@ export class ContactService {
 
   getContacts(): Promise<ContactResponse[] | null> {
     return new Promise<ContactResponse[] | null>((resolve) => {
-      this.http.get<ContactResponse[]>(this.url).subscribe({
-        next: (contacts: ContactResponse[]) => {
+      this.http.get<ContactResponse[] | null>(this.url).subscribe({
+        next: (contacts: ContactResponse[] | null) => {
           console.trace(contacts);
           resolve(contacts);
         },
